@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  username      String   @unique
+  passwordHash  String
+  role          String   // "doctor", "nurse", "pharmacist", "admin"
+  accountStatus String   @default("active") // "active", "deactivated"
+  createdAt     DateTime @default(now())
+
+  auditLogs     AuditLog[]
+  clinicalRecords ClinicalRecord[]
+  prescriptions   Prescription[]
+  vitals          VitalLog[]
+  medsAdministered MedicationAdministration[]
+}
+
+model Patient {
+  id          String   @id @default(uuid())
+  fullName    String   // Encrypted
+  dateOfBirth String   // Encrypted
+  gender      String
+  contactInfo String   // Encrypted
+  createdAt   DateTime @default(now())
+
+  clinicalRecords ClinicalRecord[]
+  prescriptions   Prescription[]
+  vitalLogs       VitalLog[]
+  medsAdministered MedicationAdministration[]
+  labRequests     LabRequest[]
+}
+
+model ClinicalRecord {
+  id        String   @id @default(uuid())
+  patientId String
+  doctorId  String
+  diagnosis String   // Encrypted
+  notes     String   // Encrypted
+  createdAt DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  User    @relation(fields: [doctorId], references: [id])
+}
+
+model Prescription {
+  id             String   @id @default(uuid())
+  patientId      String
+  doctorId       String
+  medicationName String
+  dosage         String
+  frequency      String
+  duration       String
+  status         String   @default("pending") // "pending", "dispensed", "rejected"
+  createdAt      DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  User    @relation(fields: [doctorId], references: [id])
+  medsAdministered MedicationAdministration[]
+}
+
+model VitalLog {
+  id             String   @id @default(uuid())
+  patientId      String
+  nurseId        String
+  temperature    Float
+  bloodPressure  String
+  heartRate      Int
+  spO2           Int
+  recordedAt     DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  nurse   User    @relation(fields: [nurseId], references: [id])
+}
+
+model MedicationAdministration {
+  id             String   @id @default(uuid())
+  patientId      String
+  nurseId        String
+  prescriptionId String
+  administeredAt DateTime @default(now())
+  notes          String?
+
+  patient      Patient      @relation(fields: [patientId], references: [id])
+  nurse        User         @relation(fields: [nurseId], references: [id])
+  prescription Prescription @relation(fields: [prescriptionId], references: [id])
+}
+
+model LabRequest {
+  id          String   @id @default(uuid())
+  patientId   String
+  doctorId    String
+  testName    String
+  result      String?  // Encrypted
+  status      String   @default("requested") // "requested", "completed", "cancelled"
+  createdAt   DateTime @default(now())
+  completedAt DateTime?
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  action       String
+  resourceType String
+  resourceId   String
+  performedBy  String
+  timestamp    DateTime @default(now())
+  metadata     String?  // JSON string
+
+  user User @relation(fields: [performedBy], references: [id])
+}
