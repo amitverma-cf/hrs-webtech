@@ -1,4 +1,5 @@
-import prisma from "../db";
+import { connectDB } from "../db";
+import { v4 as uuidv4 } from "uuid";
 
 export class AuditService {
   static async log(
@@ -9,15 +10,15 @@ export class AuditService {
     metadata: any = {}
   ) {
     try {
-      await prisma.auditLog.create({
-        data: {
-          action,
-          resourceType,
-          resourceId,
-          performedBy,
-          timestamp: new Date(),
-          metadata: JSON.stringify(metadata),
-        },
+      const db = await connectDB();
+      await db.collection("audit_logs").insertOne({
+        id: uuidv4(),
+        action,
+        resourceType,
+        resourceId,
+        performedBy,
+        timestamp: new Date(),
+        metadata,
       });
     } catch (error) {
       console.error("Critical: Failed to write audit log", error);

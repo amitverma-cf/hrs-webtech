@@ -1,19 +1,19 @@
 import type { Request, Response } from "express";
-import prisma from "../db";
+import { connectDB } from "../db";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 import { LoginSchema, UserSchema } from "../schemas";
 import { AuditService } from "../services/audit.service";
 
-const JWT_SECRET = process.env.JWT_SECRET || "default-jwt-secret";
+const JWT_SECRET = (process.env.JWT_SECRET || "default-jwt-secret") as string;
 
 export class AuthController {
   static async login(req: Request, res: Response) {
     try {
       const { username, password } = LoginSchema.parse(req.body);
+      const db = await connectDB();
       
-      const user = await prisma.user.findUnique({
-        where: { username },
-      });
+      const user = await db.collection("users").findOne({ username });
 
       if (!user || !(await Bun.password.verify(password, user.passwordHash))) {
         return res.status(401).json({ error: "Invalid credentials" });
@@ -40,21 +40,23 @@ export class AuthController {
   static async register(req: Request, res: Response) {
     try {
       const { username, password, role } = UserSchema.parse(req.body);
+      const db = await connectDB();
       
       const passwordHash = await Bun.password.hash(password);
+      const id = uuidv4();
 
-      const user = await prisma.user.create({
-        data: {
-          username,
-          passwordHash,
-          role,
-          accountStatus: "active",
-        },
+      await db.collection("users").insertOne({
+        id,
+        username,
+        passwordHash,
+        role,
+        accountStatus: "active",
+        createdAt: new Date(),
       });
 
-      await AuditService.log("USER_CREATED", "user", user.id, "system");
+      await AuditService.log("USER_CREATED", "user", id, "system");
 
-      res.status(201).json({ message: "User registered successfully", id: user.id });
+      res.status(201).json({ message: "User registered successfully", id });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

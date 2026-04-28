@@ -1,21 +1,30 @@
-import { Button } from "@/components/ui/button"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { LoginPage } from "./pages/login-page";
+import { DoctorDashboard } from "./pages/doctor-dashboard";
+import { NurseDashboard } from "./pages/nurse-dashboard";
+import { PharmacistDashboard } from "./pages/pharmacist-dashboard";
+import { AdminDashboard } from "./pages/admin-dashboard";
+import { PatientChartView } from "./pages/patient-chart-view";
+import { DischargeSummary } from "./pages/discharge-summary";
+import { Toaster } from "@/components/ui/sonner";
 
-export function App() {
+function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/doctor" element={<DoctorDashboard />} />
+        <Route path="/nurse" element={<NurseDashboard />} />
+        <Route path="/pharmacist" element={<PharmacistDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/patients/:id" element={<PatientChartView />} />
+        <Route path="/print/discharge/:id" element={<DischargeSummary />} />
+        {/* Basic catch-all redirect to login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+      <Toaster />
+    </Router>
+  );
 }
 
-export default App
+export default App;
