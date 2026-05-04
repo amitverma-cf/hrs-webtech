@@ -1,0 +1,137 @@
+[
+  {
+    "name": "users",
+    "description": "System users with role-based access control.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "username", "type": "string", "unique": true },
+      { "name": "password_hash", "type": "string" },
+      { "name": "role", "type": "enum", "values": ["doctor", "nurse", "pharmacist", "admin"] },
+      { "name": "account_status", "type": "enum", "values": ["active", "deactivated"], "default": "active" },
+      { "name": "created_at", "type": "datetime" }
+    ],
+    "relationships": []
+  },
+  {
+    "name": "patients",
+    "description": "Patient demographic and primary information.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "full_name", "type": "string", "encrypted": true },
+      { "name": "date_of_birth", "type": "date", "encrypted": true },
+      { "name": "gender", "type": "string" },
+      { "name": "contact_info", "type": "string", "encrypted": true },
+      { "name": "created_at", "type": "datetime" }
+    ],
+    "relationships": [
+      { "type": "one-to-many", "target": "clinical_records", "foreignKey": "patient_id" },
+      { "type": "one-to-many", "target": "prescriptions", "foreignKey": "patient_id" },
+      { "type": "one-to-many", "target": "vital_logs", "foreignKey": "patient_id" }
+    ]
+  },
+  {
+    "name": "clinical_records",
+    "description": "Detailed clinical notes and diagnoses.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "patient_id", "type": "uuid" },
+      { "name": "doctor_id", "type": "uuid" },
+      { "name": "diagnosis", "type": "text", "encrypted": true },
+      { "name": "notes", "type": "text", "encrypted": true },
+      { "name": "created_at", "type": "datetime" }
+    ],
+    "relationships": [
+      { "type": "many-to-one", "target": "patients", "foreignKey": "patient_id" },
+      { "type": "many-to-one", "target": "users", "foreignKey": "doctor_id" }
+    ]
+  },
+  {
+    "name": "prescriptions",
+    "description": "Medication orders issued by doctors.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "patient_id", "type": "uuid" },
+      { "name": "doctor_id", "type": "uuid" },
+      { "name": "medication_name", "type": "string" },
+      { "name": "dosage", "type": "string" },
+      { "name": "frequency", "type": "string" },
+      { "name": "duration", "type": "string" },
+      { "name": "status", "type": "enum", "values": ["pending", "dispensed", "rejected"] },
+      { "name": "created_at", "type": "datetime" }
+    ],
+    "relationships": [
+      { "type": "many-to-one", "target": "patients", "foreignKey": "patient_id" },
+      { "type": "many-to-one", "target": "users", "foreignKey": "doctor_id" },
+      { "type": "one-to-many", "target": "medication_administrations", "foreignKey": "prescription_id" }
+    ]
+  },
+  {
+    "name": "vital_logs",
+    "description": "Physiological readings recorded by nurses.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "patient_id", "type": "uuid" },
+      { "name": "nurse_id", "type": "uuid" },
+      { "name": "temperature", "type": "float" },
+      { "name": "blood_pressure", "type": "string" },
+      { "name": "heart_rate", "type": "integer" },
+      { "name": "spO2", "type": "integer" },
+      { "name": "recorded_at", "type": "datetime" }
+    ],
+    "relationships": [
+      { "type": "many-to-one", "target": "patients", "foreignKey": "patient_id" },
+      { "type": "many-to-one", "target": "users", "foreignKey": "nurse_id" }
+    ]
+  },
+  {
+    "name": "medication_administrations",
+    "description": "Logs of when medication was actually given to the patient.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "patient_id", "type": "uuid" },
+      { "name": "nurse_id", "type": "uuid" },
+      { "name": "prescription_id", "type": "uuid" },
+      { "name": "administered_at", "type": "datetime" },
+      { "name": "notes", "type": "string" }
+    ],
+    "relationships": [
+      { "type": "many-to-one", "target": "patients", "foreignKey": "patient_id" },
+      { "type": "many-to-one", "target": "users", "foreignKey": "nurse_id" },
+      { "type": "many-to-one", "target": "prescriptions", "foreignKey": "prescription_id" }
+    ]
+  },
+  {
+    "name": "lab_requests",
+    "description": "Diagnostic test requests and results.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "patient_id", "type": "uuid" },
+      { "name": "doctor_id", "type": "uuid" },
+      { "name": "test_name", "type": "string" },
+      { "name": "result", "type": "text", "encrypted": true },
+      { "name": "status", "type": "enum", "values": ["requested", "completed", "cancelled"] },
+      { "name": "created_at", "type": "datetime" },
+      { "name": "completed_at", "type": "datetime", "nullable": true }
+    ],
+    "relationships": [
+      { "type": "many-to-one", "target": "patients", "foreignKey": "patient_id" },
+      { "type": "many-to-one", "target": "users", "foreignKey": "doctor_id" }
+    ]
+  },
+  {
+    "name": "audit_logs",
+    "description": "Immutable trail of all system mutations.",
+    "columns": [
+      { "name": "id", "type": "uuid", "primaryKey": true },
+      { "name": "action", "type": "string" },
+      { "name": "resource_type", "type": "string" },
+      { "name": "resource_id", "type": "uuid" },
+      { "name": "performed_by", "type": "uuid" },
+      { "name": "timestamp", "type": "datetime" },
+      { "name": "metadata", "type": "json" }
+    ],
+    "relationships": [
+      { "type": "many-to-one", "target": "users", "foreignKey": "performed_by" }
+    ]
+  }
+]
