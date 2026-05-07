@@ -6,7 +6,7 @@ interface TimelineEvent {
   date: string;
   title: string;
   description: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 interface ClinicalTimelineProps {
@@ -16,9 +16,9 @@ interface ClinicalTimelineProps {
 export function ClinicalTimeline({ events }: ClinicalTimelineProps) {
   const getIcon = (type: string) => {
     switch (type) {
-      case "vital": return <Activity className="h-4 w-4 text-blue-500" />;
-      case "prescription": return <Pill className="h-4 w-4 text-green-500" />;
-      case "note": return <FileText className="h-4 w-4 text-amber-500" />;
+      case "vital": return <Activity className="h-4 w-4 text-info" />;
+      case "prescription": return <Pill className="h-4 w-4 text-success" />;
+      case "note": return <FileText className="h-4 w-4 text-warning" />;
       default: return <Clock className="h-4 w-4" />;
     }
   };

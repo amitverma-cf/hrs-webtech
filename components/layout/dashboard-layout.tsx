@@ -1,111 +1,63 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { 
-  Users, 
-  ClipboardList, 
-  Settings, 
-  LogOut,
-  Home,
-  Activity,
-  Pill
-} from "lucide-react";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "./app-sidebar";
+import { Search, Bell, HelpCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-auth";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
-  role: string;
 }
 
-const roleIcons: Record<string, any[]> = {
-  admin: [
-    { icon: Home, href: "/admin", label: "Dashboard" },
-    { icon: Users, href: "/admin/users", label: "User Management" },
-    { icon: ClipboardList, href: "/admin/audit", label: "Audit Logs" },
-  ],
-  doctor: [
-    { icon: Home, href: "/doctor", label: "Dashboard" },
-    { icon: Users, href: "/doctor/patients", label: "Patients" },
-    { icon: ClipboardList, href: "/doctor/prescriptions", label: "Prescriptions" },
-  ],
-  nurse: [
-    { icon: Home, href: "/nurse", label: "Dashboard" },
-    { icon: Activity, href: "/nurse/vitals", label: "Vitals Entry" },
-    { icon: ClipboardList, href: "/nurse/timeline", label: "Patient Timeline" },
-  ],
-  pharmacist: [
-    { icon: Home, href: "/pharmacist", label: "Dashboard" },
-    { icon: Pill, href: "/pharmacist/queue", label: "Prescription Queue" },
-  ],
-  patient: [
-    { icon: Home, href: "/patient", label: "My Health" },
-    { icon: ClipboardList, href: "/patient/prescriptions", label: "Prescriptions" },
-    { icon: Activity, href: "/patient/vitals", label: "Vitals History" },
-  ],
-};
-
-export function DashboardLayout({ children, role }: DashboardLayoutProps) {
-  const pathname = usePathname();
-  const { logout } = useAuth();
-  const icons = roleIcons[role] || [];
+export function DashboardLayout({ children }: DashboardLayoutProps) {
+  // If we wanted to support other roles with different sidebars, we could pass a prop to AppSidebar
+  // or have multiple Sidebar components. For now, focusing on Admin.
 
   return (
-    <div className="flex h-screen w-full bg-background overflow-hidden">
-      {/* Icon Sidebar */}
-      <aside className="flex w-20 flex-col items-center border-r bg-muted/30 py-6 space-y-8 z-20">
-        <div className="flex flex-col items-center gap-6 flex-1">
-          <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-lg">
-            H
-          </div>
-          <nav className="flex flex-col gap-4">
-            {icons.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
-              return (
-                <Link key={item.href} href={item.href}>
-                  <Button
-                    variant={isActive ? "default" : "ghost"}
-                    size="icon"
-                    className="h-12 w-12 rounded-xl transition-all hover:scale-105"
-                    title={item.label}
-                  >
-                    <Icon className="h-6 w-6" />
-                  </Button>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-        <div className="flex flex-col gap-4">
-          <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl" title="Settings">
-            <Settings className="h-6 w-6" />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="h-12 w-12 rounded-xl text-destructive hover:bg-destructive/10" 
-            title="Logout"
-            onClick={() => logout()}
-          >
-            <LogOut className="h-6 w-6" />
-          </Button>
-        </div>
-      </aside>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-background">
+        <AppSidebar />
+        <SidebarInset className="flex flex-col bg-background/50">
+          {/* Header */}
+          <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b bg-background/80 px-6 backdrop-blur-md">
+            <div className="flex items-center gap-4 flex-1">
+              <SidebarTrigger className="-ml-1" />
+              <div className="relative w-full max-w-md group-data-[collapsible=icon]:hidden md:flex hidden">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary" />
+                <Input 
+                  placeholder="Search clinical data..." 
+                  className="pl-10 h-10 w-full bg-muted/50 border-none rounded-xl focus-visible:ring-1 focus-visible:ring-primary/20"
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl relative">
+                <Bell className="h-5 w-5" />
+                <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-primary" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl">
+                <HelpCircle className="h-5 w-5" />
+              </Button>
+            </div>
+          </header>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-background relative">
-        {/* Subtle background texture/gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none opacity-30" />
-        
-        <main className="flex-1 overflow-auto p-8 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
-        </main>
+          <main className="flex-1 relative overflow-x-hidden">
+             {/* Subtle background texture */}
+            <div 
+              className="absolute inset-0 [background-size:24px_24px] pointer-events-none opacity-20" 
+              style={{ backgroundImage: 'radial-gradient(var(--border) 1px, transparent 1px)' }}
+            />
+            
+            <div className="relative z-10 p-6 md:p-8 max-w-7xl mx-auto w-full">
+              {children}
+            </div>
+          </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }
+

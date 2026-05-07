@@ -14,7 +14,7 @@ export default function LoginPage() {
     const data = Object.fromEntries(formData);
 
     try {
-      const user = await login(data);
+      const user = await login(data as { username: string; password: string });
       // Redirect based on role
       switch (user.role) {
         case "doctor": router.push("/doctor"); break;
@@ -23,7 +23,7 @@ export default function LoginPage() {
         case "admin": router.push("/admin"); break;
         default: router.push("/");
       }
-    } catch (err) {
+    } catch {
       // Error handled by hook
     }
   };

@@ -7,7 +7,7 @@ export class AuditService {
     resourceType: string,
     resourceId: string,
     performedBy: string,
-    metadata: any = {}
+    metadata: Record<string, unknown> = {}
   ) {
     try {
       const db = await getDatabase();

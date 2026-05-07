@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDatabase } from "@/lib/db";
-import { UserSchema } from "@/lib/schemas";
+import { SignupSchema } from "@/lib/schemas";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 import { AuditService } from "@/lib/audit";
@@ -8,7 +8,7 @@ import { AuditService } from "@/lib/audit";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const validated = UserSchema.parse(body);
+    const validated = SignupSchema.parse(body);
 
     const db = await getDatabase();
     const existingUser = await db.collection("users").findOne({ username: validated.username });
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       username: validated.username,
       passwordHash,
       role: validated.role,
-      accountStatus: "active",
+      accountStatus: "inactive",
       createdAt: new Date(),
     };
 
@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
     await AuditService.log("SIGNUP", "user", userId, userId, { role: validated.role });
 
     return NextResponse.json({ message: "User created successfully" }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Signup error:", error);
-    return NextResponse.json({ error: error.message || "Signup failed" }, { status: 400 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Signup failed" }, { status: 400 });
   }
 }

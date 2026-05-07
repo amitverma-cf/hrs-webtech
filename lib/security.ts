@@ -39,7 +39,7 @@ export class SecurityService {
       decrypted += decipher.final("utf8") as string;
       
       return decrypted;
-    } catch (error) {
+    } catch {
       return encryptedData;
     }
   }

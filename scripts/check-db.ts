@@ -1,4 +1,4 @@
-import { getDatabase } from "./lib/db";
+import { getDatabase } from "../lib/db";
 
 async function check() {
   const db = await getDatabase();

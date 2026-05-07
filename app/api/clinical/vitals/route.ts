@@ -19,18 +19,65 @@ export async function POST(req: Request) {
     const data = VitalLogSchema.parse(body);
     const db = await getDatabase();
     const id = uuidv4();
+    const now = new Date();
 
-    await db.collection("vital_logs").insertOne({
+    // 1. Log the vital
+    await db.collection("vitals").insertOne({
       id,
       ...data,
       nurseId: userId,
-      recordedAt: new Date(),
+      recordedAt: now,
     });
+
+    // 2. Check for Threshold Breaches
+    // Find active admission for this patient
+    const admission = await db.collection("admissions").aggregate([
+        { $match: { patientId: data.patientId, status: "active" } },
+        {
+            $lookup: {
+                from: "templates",
+                localField: "templateId",
+                foreignField: "id",
+                as: "template"
+            }
+        },
+        { $unwind: "$template" }
+    ]).next();
+
+    if (admission && admission.template.vitalThresholds) {
+        const breaches: string[] = [];
+        for (const threshold of admission.template.vitalThresholds) {
+            const val = (data as Record<string, unknown>)[threshold.metric] as number | undefined;
+            if (val !== undefined) {
+                if (threshold.min !== undefined && val < threshold.min) {
+                    breaches.push(`${threshold.metric} low: ${val} (min ${threshold.min})`);
+                }
+                if (threshold.max !== undefined && val > threshold.max) {
+                    breaches.push(`${threshold.metric} high: ${val} (max ${threshold.max})`);
+                }
+            }
+        }
+
+        if (breaches.length > 0) {
+            // Spawn an Alert Task for the Doctor
+            await db.collection("tasks").insertOne({
+                id: uuidv4(),
+                admissionId: admission.id,
+                type: "alert",
+                description: `THRESHOLD BREACH: ${breaches.join(", ")}`,
+                targetTime: now,
+                status: "pending",
+                priority: "urgent",
+                createdAt: now,
+            });
+        }
+    }
 
     await AuditService.log("VITALS_LOGGED", "vital_log", id, userId!);
 
     return NextResponse.json({ id, message: "Vitals logged successfully" }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    console.error("Vitals log error:", error);
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 400 });
   }
 }

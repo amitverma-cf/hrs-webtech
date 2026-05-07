@@ -29,8 +29,8 @@ export async function POST(req: Request) {
     await AuditService.log("PATIENT_CREATED", "patient", id, userId);
 
     return NextResponse.json({ id, message: "Patient created successfully" }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 400 });
   }
 }
 
@@ -45,7 +45,7 @@ export async function GET() {
     }));
 
     return NextResponse.json(decryptedList);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 400 });
   }
 }

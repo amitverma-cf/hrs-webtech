@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Check, XCircle } from "lucide-react";
+import { Prescription } from "@/lib/schemas";
 
 interface PrescriptionQueueProps {
-  prescriptions: any[];
+  prescriptions: Prescription[];
   onAction: (id: string, status: "dispensed" | "rejected") => void;
 }
 
@@ -38,8 +39,8 @@ export function PrescriptionQueue({ prescriptions, onAction }: PrescriptionQueue
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="text-green-600 hover:text-green-700"
-                  onClick={() => onAction(px.id, "dispensed")}
+                  className="text-success hover:text-success/90 hover:bg-success/10"
+                  onClick={() => onAction(px.id || "", "dispensed")}
                 >
                   <Check className="h-4 w-4 mr-1" />
                   Dispense
@@ -47,8 +48,8 @@ export function PrescriptionQueue({ prescriptions, onAction }: PrescriptionQueue
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="text-destructive hover:text-destructive"
-                  onClick={() => onAction(px.id, "rejected")}
+                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                  onClick={() => onAction(px.id || "", "rejected")}
                 >
                   <XCircle className="h-4 w-4 mr-1" />
                   Reject

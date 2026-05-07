@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { ReactNode, useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Printer } from "lucide-react";
 
@@ -8,6 +8,9 @@ interface PrintLayoutProps {
 }
 
 export function PrintLayout({ children, title }: PrintLayoutProps) {
+  const id = useId();
+  const refId = id.replace(/:/g, "").toUpperCase();
+  
   return (
     <div className="min-h-screen bg-white p-8 text-black print:p-0">
       <div className="mx-auto max-w-[210mm] border p-[10mm] shadow-sm print:border-0 print:shadow-none bg-white">
@@ -20,7 +23,7 @@ export function PrintLayout({ children, title }: PrintLayoutProps) {
             <div className="text-right text-xs">
               <p className="font-semibold text-primary">HRS General Hospital</p>
               <p>Generated: {new Date().toLocaleString()}</p>
-              <p>Ref: {Math.random().toString(36).substring(7).toUpperCase()}</p>
+              <p>Ref: {refId}</p>
             </div>
           </div>
         </header>

@@ -7,6 +7,7 @@ import { SignupForm } from "@/components/forms/signup-form";
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [role, setRole] = useState("patient");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,8 +31,8 @@ export default function SignupPage() {
       }
 
       router.push("/login");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Signup failed");
     } finally {
       setIsLoading(false);
     }
@@ -42,6 +43,8 @@ export default function SignupPage() {
       onSubmit={handleSubmit} 
       isLoading={isLoading} 
       error={error} 
+      role={role}
+      onRoleChange={setRole}
     />
   );
 }

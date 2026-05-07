@@ -32,7 +32,7 @@ export async function PATCH(
     await AuditService.log("PRESCRIPTION_STATUS_UPDATED", "prescription", id, userId!, { status });
 
     return NextResponse.json({ message: `Prescription marked as ${status}` });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 400 });
   }
 }

@@ -1,74 +1,67 @@
-# Healthcare EMR System (HRS)
+# Healthcare HRS (Hospital Record System)
 
-A unified, modern Electronic Medical Record (EMR) system built with Next.js 16, designed for high performance, security, and ease of local development.
+A high-fidelity, template-driven inpatient management system built with Next.js 16, Shadcn UI, and MongoDB.
 
 ## 🚀 Quick Start
 
-### Setup & Run
-1. **Install Dependencies:**
-   ```bash
-   bun install
-   ```
+### 1. Install Dependencies
+```bash
+bun install
+```
 
-2. **Seed the Database:**
-   Initialize the system with a persistent admin user.
-   ```bash
-   bun run seed
-   ```
-   *Default Admin: `admin` / `admin123`*
+### 2. Setup Environment
+Create a `.env.local` file in the root:
+```env
+JWT_SECRET=your_super_secret_key_here
+DATABASE_URL=memory # Uses local persistent mongodb-memory-server
+# For real MongoDB: DATABASE_URL=mongodb://localhost:27017
+```
 
-3. **Start Development:**
-   ```bash
-   bun dev
-   ```
-   The app will be available at `http://localhost:3000`.
+### 3. Seed the Database
+**Important**: This will reset your database and create initial wards, beds, templates, and users.
+```bash
+bun run seed
+```
 
-## 🛠️ Tech Stack
+### 4. Run Development Server
+```bash
+bun dev
+```
+Visit `http://localhost:3000`
 
-- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
-- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
-- **UI Components:** [Shadcn UI](https://ui.shadcn.com/) (Exclusively installed via CLI)
-- **Database:** MongoDB (Local persistence via `mongodb-memory-server`)
-- **Auth:** JWT (HttpOnly Cookies) + `bcryptjs`
-- **Validation:** [Zod](https://zod.dev/)
-- **Security:** AES-256-GCM for Patient PII Encryption
+---
 
-## 🔐 Security & Architecture
+## 🔑 User Credentials (Default Seed)
 
-### Encryption
-All patient Personal Identifiable Information (PII) such as full names, dates of birth, and contact info are encrypted using **AES-256-GCM** before being stored in MongoDB. The `SecurityService` (`lib/security.ts`) handles transparent encryption/decryption at the service layer.
+All accounts use the same default password: **`password123`**
 
-### Request Interception
-The project uses the **Next.js 16 `proxy.ts` convention** (replacing `middleware.ts`) to enforce authentication and role-based access control across all API routes and pages.
+| Role | Username | Description |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | Full system control & user approvals. |
+| **Doctor** | `dr_smith` | Manages admissions and protocols. |
+| **Nurse** | `nurse_joy` | Executes tasks and logs vitals. |
+| **Pharmacist** | `pharmacist_sam` | Fulfills medication orders. |
+| **Patient** | `patient_john` | Views personal care analytics & bill. |
 
-### Database Singleton
-The `lib/db.ts` uses a singleton pattern to maintain a stable MongoDB connection across Hot Module Replacement (HMR) and manages the lifecycle of the embedded `mongodb-memory-server`.
+---
 
-## 🏥 Clinical Workflows
+## ✨ Key Features
 
-The system supports four distinct clinical roles:
+- **Protocol-Based Care**: Auto-generate 48h task queues based on disease templates.
+- **Clinical Safety Gate**: Pre-execution allergy and vital checks for Nurses.
+- **Urgent Alerting**: Automatic alert generation when vitals breach template thresholds.
+- **Ward Hierarchy**: Organize your facility into ICU, General Medicine, and Pediatrics.
+- **Live Billing**: Real-time itemized billing statements updated as tasks are executed.
+- **Printable Manifests**: Official discharge summaries and pharmacy delivery manifests.
 
-- **Admin Dashboard:** System oversight, user management (enable/disable staff), and immutable clinical audit logs.
-- **Doctor Dashboard:** Patient registry management, clinical history review, and issuing prescriptions.
-- **Nurse Dashboard:** Bedside vitals logging and active patient monitoring.
-- **Pharmacist Dashboard:** Real-time dispensing queue for verifying and fulfilling prescriptions.
+## 🛠 Technical Stack
 
-## 📂 Project Structure
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS 4
+- **Components**: Shadcn UI + Lucide Icons
+- **Database**: MongoDB
+- **Auth**: JWT via `jose` (Edge Runtime compatible)
+- **Logic**: Zod-validated schemas and deterministic task generation service.
 
-- `app/api/`: Unified API routes for clinical logic.
-- `app/(clinical)/`: Role-based dashboard pages.
-- `components/ui/`: CLI-managed Shadcn components.
-- `hooks/`: Role-specific React hooks for clinical state management.
-- `lib/`: Core services (Auth, Audit, DB, Security, Schemas).
-- `proxy.ts`: Global request interceptor and security gate.
-- `.mongo-data/`: Persistent local database storage.
-
-## 📜 Commands
-
-| Command | Description |
-| :--- | :--- |
-| `bun dev` | Starts the Next.js dev server with Turbopack. |
-| `bun run seed` | Seeds the initial admin user. |
-| `bun run build` | Builds the project for production. |
-| `bun run lint` | Runs ESLint for code quality checks. |
-| `bun run typecheck` | Validates TypeScript integrity. |
+---
+*Note: This system is designed for a single-facility context, focusing on minimizing staff cognitive load through deterministic clinical protocols.*

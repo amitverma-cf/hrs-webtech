@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Inter, Manrope } from "next/font/google"
+import { Geist_Mono, Inter, Manrope } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -15,6 +15,8 @@ const fontMono = Geist_Mono({
 
 import { Toaster } from "@/components/ui/sonner";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +30,9 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          {children}
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
           <Toaster />
         </ThemeProvider>
       </body>

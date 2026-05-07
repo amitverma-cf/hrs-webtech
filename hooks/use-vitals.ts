@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { VitalLog } from "@/lib/schemas";
 
 export function useVitals(patientId?: string) {
-  const [vitals, setVitals] = useState<any[]>([]);
+  const [vitals, setVitals] = useState<VitalLog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,14 +15,14 @@ export function useVitals(patientId?: string) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setVitals(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch vitals");
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const logVitals = async (data: any) => {
+  const logVitals = async (data: VitalLog) => {
     setIsLoading(true);
     try {
       const res = await fetch("/api/clinical/vitals", {
@@ -34,8 +35,9 @@ export function useVitals(patientId?: string) {
         throw new Error(errData.error);
       }
       if (patientId) await fetchVitals(patientId);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to log vitals";
+      setError(msg);
       throw err;
     } finally {
       setIsLoading(false);

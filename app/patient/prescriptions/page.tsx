@@ -1,70 +1,116 @@
 "use client";
 
 import { usePrescriptions } from "@/hooks/use-prescriptions";
-import { Pill, ClipboardList } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Prescription } from "@/lib/schemas";
+import { Pill, ClipboardList, Filter, Clock, CheckCircle2, Calendar, ShieldCheck, Activity } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function PatientPrescriptionsPage() {
   const { prescriptions, isLoading } = usePrescriptions();
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-4">
-        <div className="p-3 bg-primary/10 rounded-2xl">
-          <Pill className="h-8 w-8 text-primary" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="p-4 bg-primary/10 rounded-2xl shadow-inner">
+            <Pill className="h-8 w-8 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-4xl font-black tracking-tight">Prescription Log</h1>
+            <p className="text-muted-foreground font-medium italic">Active pharmacological protocols and medication history.</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Prescriptions</h1>
-          <p className="text-muted-foreground">View your active medication and prescription history.</p>
+        <div className="flex items-center gap-3">
+            <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
+                <ShieldCheck className="h-4 w-4" />
+                Safety Guidelines
+            </Button>
         </div>
       </div>
 
-      <div className="grid gap-6">
+      <div className="flex items-center justify-between bg-card p-6 rounded-[2rem] border-none shadow-sm">
+         <div className="flex items-center gap-4">
+            <Badge className="bg-primary/10 text-primary border-none font-bold px-4 py-1.5 rounded-full uppercase tracking-widest text-[10px]">
+                {prescriptions.length} Active Orders
+            </Badge>
+         </div>
+         <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+         </div>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2">
         {isLoading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <div className="col-span-full text-center py-20 flex flex-col items-center gap-4">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+            <p className="text-muted-foreground font-medium">Syncing pharmacy records...</p>
           </div>
         ) : prescriptions.length > 0 ? (
-          prescriptions.map((p: any) => (
-            <Card key={p.id} className="rounded-2xl shadow-sm border overflow-hidden">
-              <CardHeader className="bg-muted/30 border-b py-4">
+          prescriptions.map((p: Prescription) => (
+            <Card key={p.id} className="rounded-[2.5rem] border-none shadow-xl shadow-muted/30 overflow-hidden bg-card hover:shadow-muted/40 transition-all group">
+              <CardHeader className="bg-muted/5 border-b pb-6 px-8 pt-8">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Pill className="h-5 w-5 text-primary" />
-                    {p.medicationName}
-                  </CardTitle>
-                  <Badge variant={p.status === "dispensed" ? "default" : "secondary"}>
-                    {p.status}
+                  <div className="space-y-1">
+                    <CardTitle className="text-2xl font-black text-slate-800 flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-xl">
+                            <Pill className="h-5 w-5 text-primary" />
+                        </div>
+                        {p.medicationName}
+                    </CardTitle>
+                    <CardDescription className="font-bold text-[10px] uppercase tracking-widest text-muted-foreground">Order Ref: RX-{p.id?.substring(0, 6).toUpperCase() || 'NEW'}</CardDescription>
+                  </div>
+                  <Badge 
+                    variant={p.status === "dispensed" ? "default" : "secondary"}
+                    className={`rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-wider ${p.status === 'dispensed' ? 'bg-success/10 text-success hover:bg-success/20 border-success/20' : ''}`}
+                  >
+                    {p.status === 'dispensed' ? (
+                        <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3" /> Dispensed</span>
+                    ) : (
+                        <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" /> {p.status}</span>
+                    )}
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase font-semibold">Dosage</p>
-                  <p className="text-lg font-medium">{p.dosage}</p>
+              <CardContent className="p-8 grid grid-cols-2 gap-8">
+                <div className="space-y-1">
+                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter flex items-center gap-1.5">
+                    <Activity className="h-3 w-3" /> Dosage protocol
+                  </p>
+                  <p className="text-xl font-black text-foreground/80">{p.dosage}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase font-semibold">Frequency</p>
-                  <p className="text-lg font-medium">{p.frequency}</p>
+                <div className="space-y-1">
+                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" /> Frequency
+                  </p>
+                  <p className="text-xl font-black text-foreground/80">{p.frequency}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase font-semibold">Duration</p>
-                  <p className="text-lg font-medium">{p.duration}</p>
+                <div className="space-y-1">
+                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter flex items-center gap-1.5">
+                    <Calendar className="h-3 w-3" /> Course Duration
+                  </p>
+                  <p className="text-xl font-black text-foreground/80">{p.duration}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase font-semibold">Date Prescribed</p>
-                  <p className="text-lg font-medium">{new Date(p.createdAt).toLocaleDateString()}</p>
+                <div className="space-y-1">
+                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3 w-3" /> Date Validated
+                  </p>
+                  <p className="text-xl font-black text-foreground/80">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</p>
                 </div>
               </CardContent>
             </Card>
           ))
         ) : (
-          <div className="text-center py-20 bg-card border rounded-2xl border-dashed">
-            <ClipboardList className="h-12 w-12 text-muted-foreground mx-auto opacity-20 mb-4" />
-            <p className="text-muted-foreground font-medium">No prescriptions found.</p>
-            <p className="text-sm text-muted-foreground">Your active medications will appear here once prescribed by a doctor.</p>
-          </div>
+            <div className="col-span-full text-center py-32 space-y-4">
+                <div className="h-20 w-20 bg-muted/50 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                    <ClipboardList className="h-10 w-10 text-muted-foreground opacity-20" />
+                </div>
+                <div className="max-w-xs mx-auto">
+                    <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">No active orders</p>
+                    <p className="text-sm text-muted-foreground font-medium italic mt-1">Your pharmacological history will be automatically updated here by clinical staff.</p>
+                </div>
+            </div>
         )}
       </div>
     </div>

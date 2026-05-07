@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { Prescription } from "@/lib/schemas";
 
 export function usePrescriptions() {
-  const [prescriptions, setPrescriptions] = useState<any[]>([]);
+  const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,8 +15,8 @@ export function usePrescriptions() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setPrescriptions(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch prescriptions");
     } finally {
       setIsLoading(false);
     }
@@ -33,13 +34,13 @@ export function usePrescriptions() {
         throw new Error(errData.error);
       }
       await fetchPending();
-    } catch (err: any) {
+    } catch (err) {
       throw err;
     }
   };
 
   useEffect(() => {
-    fetchPending();
+    Promise.resolve().then(() => fetchPending());
   }, [fetchPending]);
 
   return { prescriptions, isLoading, error, updateStatus, refresh: fetchPending };

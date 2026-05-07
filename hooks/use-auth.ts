@@ -2,32 +2,39 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { User, LoginSchema } from "@/lib/schemas";
+import { z } from "zod";
+
+type LoginCredentials = z.infer<typeof LoginSchema>;
 
 export function useAuth() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const fetchUser = useCallback(async () => {
+    setIsLoading(true);
     try {
       const res = await fetch("/api/auth/me");
-      if (res.ok) {
-        const data = await res.json();
+      const data = await res.json();
+      if (res.ok && data) {
         setUser(data);
       } else {
         setUser(null);
       }
-    } catch (err) {
+    } catch {
       setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchUser();
+    Promise.resolve().then(() => fetchUser());
   }, [fetchUser]);
 
-  const login = useCallback(async (credentials: any) => {
+  const login = useCallback(async (credentials: LoginCredentials) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -45,8 +52,9 @@ export function useAuth() {
 
       setUser(data);
       return data;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Login failed";
+      setError(msg);
       throw err;
     } finally {
       setIsLoading(false);
