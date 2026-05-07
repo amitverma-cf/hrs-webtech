@@ -213,7 +213,7 @@ export default function NurseDashboard() {
                       </TableCell>
                     </TableRow>
                   ))}
-                  {tasks.length === 0 && (
+                  {filteredTasks.length === 0 && (
                     <TableRow>
                       <TableCell colSpan={5} className="text-center py-20 text-muted-foreground italic font-medium">
                         No pending interventions for this location.
