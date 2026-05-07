@@ -69,13 +69,13 @@ const roleNavigation: Record<string, NavItem[]> = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  
+
   const role = user?.role || "patient";
   const navItems = roleNavigation[role] || roleNavigation.patient;
 
   return (
     <Sidebar collapsible="icon" className="border-r" {...props}>
-      <SidebarHeader className="h-16 border-b flex items-center px-6">
+      <SidebarHeader className="border-b flex items-center px-6 py-6">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Hospital className="h-5 w-5" />
@@ -86,7 +86,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent className="py-4">
-        <SidebarMenu className="px-3 gap-1">
+        <SidebarMenu className="px-3 group-data-[collapsible=icon]:p-2 gap-1">
           {navItems.map((item) => {
             const isActive = pathname === item.url || (item.url !== `/${role}` && pathname.startsWith(item.url));
             return (
@@ -107,7 +107,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           })}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="border-t p-4 gap-4">
+      <SidebarFooter className="border-t group-data-[collapsible=icon]:p-2 p-4 gap-4">
         <SidebarMenu className="gap-1">
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -133,10 +133,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        
+
         <SidebarSeparator />
-        
-        <div className="flex items-center gap-3 px-2 group-data-[collapsible=icon]:hidden">
+
+        <div className="flex items-center gap-3 group-data-[collapsible=icon]:hidden">
           <Avatar className="h-10 w-10 border-2 border-primary/10">
             <AvatarImage src={`https://avatar.vercel.sh/${user?.email}`} />
             <AvatarFallback className="bg-primary/5 text-primary font-bold">

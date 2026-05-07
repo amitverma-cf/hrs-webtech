@@ -21,7 +21,8 @@ export default function LoginPage() {
         case "nurse": router.push("/nurse"); break;
         case "pharmacist": router.push("/pharmacist"); break;
         case "admin": router.push("/admin"); break;
-        default: router.push("/");
+        case "patient": router.push("/patient"); break;
+        default: router.push("/patient");
       }
     } catch {
       // Error handled by hook
