@@ -5,16 +5,16 @@ import bcrypt from "bcryptjs";
 async function seed() {
   try {
     const db = await getDatabase();
-    console.log("🧹 Resetting database...");
-    
+    console.log("- Resetting database...");
+
     // Explicitly drop the database for a clean state
     await db.dropDatabase();
-    console.log("✨ Database dropped. Starting fresh seed...");
+    console.log("- Database dropped. Starting fresh seed...");
 
     const passwordHash = await bcrypt.hash("password123", 12);
 
     // 1. Seed Wards
-    console.log("🏢 Seeding wards...");
+    console.log("- Seeding wards...");
     const wards = [
       { id: uuidv4(), name: "General Medicine", description: "Standard care ward" },
       { id: uuidv4(), name: "ICU", description: "Intensive Care Unit" },
@@ -23,7 +23,7 @@ async function seed() {
     await db.collection("wards").insertMany(wards);
 
     // 2. Seed Users
-    console.log("👥 Seeding users...");
+    console.log("- Seeding users...");
     const users = [
       {
         id: uuidv4(),
@@ -77,7 +77,7 @@ async function seed() {
     await db.collection("users").insertMany(users);
 
     // 3. Seed Patients
-    console.log("🩺 Seeding patients...");
+    console.log("- Seeding patients...");
     const patientUser = users.find(u => u.username === "patient_john")!;
     const patientJohn = {
       id: patientUser.id,
@@ -91,7 +91,7 @@ async function seed() {
     await db.collection("patients").insertMany([patientJohn]);
 
     // 4. Seed Beds
-    console.log("🛏️ Seeding beds...");
+    console.log("- Seeding beds...");
     const beds = [];
     const genMedWard = wards[0];
     const icuWard = wards[1];
@@ -117,7 +117,7 @@ async function seed() {
     await db.collection("beds").insertMany(beds);
 
     // 5. Seed Disease Templates
-    console.log("📋 Seeding disease templates...");
+    console.log("- Seeding disease templates...");
     const templates = [
       {
         id: uuidv4(),
@@ -244,7 +244,7 @@ async function seed() {
     await db.collection("templates").insertMany(templates);
 
     // 6. Seed an active Admission
-    console.log("🏥 Seeding an active admission...");
+    console.log("- Seeding an active admission...");
     const drSmith = users.find(u => u.username === "dr_smith")!;
     const bed101 = beds[0];
     const pneumoniaTemplate = templates[0];
@@ -266,7 +266,7 @@ async function seed() {
     );
 
     // 7. Generate Tasks
-    console.log("✅ Generating tasks for admission...");
+    console.log("- Generating tasks for admission...");
     const tasks = [];
     const now = new Date();
 
@@ -307,7 +307,7 @@ async function seed() {
     await db.collection("tasks").insertMany(tasks);
 
     // 8. Billing
-    console.log("💳 Seeding billing...");
+    console.log("- Seeding billing...");
     await db.collection("billing").insertOne({
       admissionId,
       lineItems: [
@@ -316,9 +316,9 @@ async function seed() {
       total: 100
     });
 
-    console.log("✨ Seeding completed successfully!");
+    console.log("- Seeding completed successfully!");
   } catch (error) {
-    console.error("❌ Seeding failed:", error);
+    console.error("! Seeding failed:", error);
   } finally {
     await closeDatabase();
     process.exit(0);

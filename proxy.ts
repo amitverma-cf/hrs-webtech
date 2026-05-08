@@ -23,7 +23,7 @@ export async function proxy(request: NextRequest) {
   }
 
   const payload = await verifyJWT(token);
-  
+
   if (!payload) {
     // Invalid token
     const response = NextResponse.redirect(new URL('/login', request.url))
@@ -50,7 +50,7 @@ export async function proxy(request: NextRequest) {
 
   // Special case for patient charts (accessible by doctors and nurses)
   if (pathname.startsWith('/patients') && !['doctor', 'nurse', 'admin'].includes(role)) {
-     return NextResponse.redirect(new URL(`/${role}`, request.url))
+    return NextResponse.redirect(new URL(`/${role}`, request.url))
   }
 
   return NextResponse.next({

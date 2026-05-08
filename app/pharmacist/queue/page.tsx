@@ -29,14 +29,14 @@ export default function PharmacistQueuePage() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Dispensing Logic</h1>
-            <p className="text-muted-foreground font-medium italic">Pharmacological order management and verification.</p>
+            <p className="text-muted-foreground font-medium">Pharmacological order management and verification.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-            <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
-                <History className="h-4 w-4" />
-                Dispense History
-            </Button>
+          <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
+            <History className="h-4 w-4" />
+            Dispense History
+          </Button>
         </div>
       </div>
 
@@ -47,14 +47,14 @@ export default function PharmacistQueuePage() {
             <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Verifying {prescriptions.length} pending requests</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Filter by ID or Drug..." 
-                  className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium" 
-                />
-             </div>
-             <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter by ID or Drug..."
+                className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium"
+              />
+            </div>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -64,9 +64,9 @@ export default function PharmacistQueuePage() {
               <p className="text-muted-foreground font-medium">Syncing dispensing queue...</p>
             </div>
           ) : (
-            <PrescriptionQueue 
-              prescriptions={prescriptions} 
-              onAction={handleAction} 
+            <PrescriptionQueue
+              prescriptions={prescriptions}
+              onAction={handleAction}
             />
           )}
         </CardContent>

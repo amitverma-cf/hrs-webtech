@@ -10,7 +10,7 @@ interface PrintLayoutProps {
 export function PrintLayout({ children, title }: PrintLayoutProps) {
   const id = useId();
   const refId = id.replace(/:/g, "").toUpperCase();
-  
+
   return (
     <div className="min-h-screen bg-white p-8 text-black print:p-0">
       <div className="mx-auto max-w-[210mm] border p-[10mm] shadow-sm print:border-0 print:shadow-none bg-white">
@@ -32,14 +32,14 @@ export function PrintLayout({ children, title }: PrintLayoutProps) {
           {children}
         </main>
 
-        <footer className="mt-12 border-t pt-4 text-[10px] text-muted-foreground flex justify-between italic">
+        <footer className="mt-12 border-t pt-4 text-[10px] text-muted-foreground flex justify-between">
           <p>© 2026 Healthcare EMR System. Confidential Clinical Data.</p>
           <p>Page 1 of 1</p>
         </footer>
       </div>
 
       <div className="fixed bottom-6 right-6 print:hidden">
-        <Button 
+        <Button
           onClick={() => window.print()}
           className="rounded-full h-14 px-6 shadow-2xl hover:scale-105 transition-all text-lg font-semibold gap-2"
         >

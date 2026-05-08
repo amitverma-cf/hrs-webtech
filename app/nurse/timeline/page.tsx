@@ -21,14 +21,14 @@ export default function NurseTimelinePage() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Clinical Timeline</h1>
-            <p className="text-muted-foreground font-medium italic">Chronological care logs and intervention history.</p>
+            <p className="text-muted-foreground font-medium">Chronological care logs and intervention history.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-            <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
-                <History className="h-4 w-4" />
-                Shift Summary
-            </Button>
+          <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
+            <History className="h-4 w-4" />
+            Shift Summary
+          </Button>
         </div>
       </div>
 
@@ -39,14 +39,14 @@ export default function NurseTimelinePage() {
             <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Select a record to view detailed history</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Filter directory..." 
-                  className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium" 
-                />
-             </div>
-             <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter directory..."
+                className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium"
+              />
+            </div>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -56,9 +56,9 @@ export default function NurseTimelinePage() {
               <p className="text-muted-foreground font-medium">Loading records...</p>
             </div>
           ) : (
-            <PatientTable 
-              patients={patients} 
-              onViewDetails={(id) => router.push(`/patients/${id}`)} 
+            <PatientTable
+              patients={patients}
+              onViewDetails={(id) => router.push(`/patients/${id}`)}
             />
           )}
         </CardContent>

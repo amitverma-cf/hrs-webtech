@@ -36,7 +36,7 @@ export function PatientTable({ patients, onViewDetails, onAdmit }: PatientTableP
                   <Avatar className="h-10 w-10 border-2 border-primary/5 shadow-sm">
                     <AvatarImage src={`https://avatar.vercel.sh/${patient.id}`} />
                     <AvatarFallback className="bg-primary/10 text-primary font-black uppercase">
-                        {patient.fullName?.[0]}
+                      {patient.fullName?.[0]}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col">
@@ -51,9 +51,9 @@ export function PatientTable({ patients, onViewDetails, onAdmit }: PatientTableP
               <TableCell className="px-8 text-right">
                 <div className="flex justify-end gap-2">
                   {onAdmit && (
-                    <Button 
-                      variant="default" 
-                      size="sm" 
+                    <Button
+                      variant="default"
+                      size="sm"
                       className="rounded-xl h-10 px-4 font-black text-[10px] uppercase gap-2 shadow-lg shadow-primary/10"
                       onClick={() => onAdmit(patient)}
                     >
@@ -61,18 +61,18 @@ export function PatientTable({ patients, onViewDetails, onAdmit }: PatientTableP
                       Admit
                     </Button>
                   )}
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="rounded-xl h-10 px-4 font-black text-[10px] uppercase gap-2 border-2 hover:bg-muted"
                     onClick={() => onViewDetails(patient.id || "")}
                   >
                     <LayoutDashboard className="h-4 w-4" />
                     Chart
                   </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     className="h-10 w-10 rounded-xl hover:bg-muted"
                     onClick={() => onViewDetails(patient.id || "")}
                   >
@@ -84,7 +84,7 @@ export function PatientTable({ patients, onViewDetails, onAdmit }: PatientTableP
           ))}
           {patients.length === 0 && (
             <TableRow>
-              <TableCell colSpan={3} className="text-center py-24 text-muted-foreground italic font-medium">
+              <TableCell colSpan={3} className="text-center py-24 text-muted-foreground font-medium">
                 No patient records found in the directory.
               </TableCell>
             </TableRow>

@@ -16,8 +16,8 @@ export default function AdminUsersPage() {
     fetchUsers();
   }, [fetchUsers]);
 
-  const filteredUsers = users.filter(u => 
-    (u.fullName || "").toLowerCase().includes(search.toLowerCase()) || 
+  const filteredUsers = users.filter(u =>
+    (u.fullName || "").toLowerCase().includes(search.toLowerCase()) ||
     u.username.toLowerCase().includes(search.toLowerCase()) ||
     u.role.toLowerCase().includes(search.toLowerCase())
   );
@@ -31,7 +31,7 @@ export default function AdminUsersPage() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Staff Directory</h1>
-            <p className="text-muted-foreground font-medium italic">Managing clinical personnel, access rights, and security roles.</p>
+            <p className="text-muted-foreground font-medium">Managing clinical personnel, access rights, and security roles.</p>
           </div>
         </div>
         <Button className="rounded-2xl h-12 px-6 shadow-lg shadow-primary/20 gap-2 font-bold">
@@ -47,16 +47,16 @@ export default function AdminUsersPage() {
             <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Authenticating {users.length} registered accounts</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search staff..." 
-                  className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium" 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-             </div>
-             <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search staff..."
+                className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -66,10 +66,10 @@ export default function AdminUsersPage() {
               <p className="text-muted-foreground font-medium">Syncing directory...</p>
             </div>
           ) : (
-            <UserManagementList 
-              users={filteredUsers} 
-              onUpdateUser={updateUser} 
-              onDeleteUser={deleteUser} 
+            <UserManagementList
+              users={filteredUsers}
+              onUpdateUser={updateUser}
+              onDeleteUser={deleteUser}
             />
           )}
         </CardContent>

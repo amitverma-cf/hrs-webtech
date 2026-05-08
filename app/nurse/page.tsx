@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useTasks, useSafetyBrief } from "@/hooks/use-tasks";
 import { useAuth } from "@/hooks/use-auth";
 import { useAdmin } from "@/hooks/use-admin";
-import { 
-  Activity, 
-  CheckCircle2, 
-  Clock, 
-  MapPin, 
-  Search, 
-  ShieldAlert, 
-  AlertTriangle, 
-  Thermometer, 
-  Droplets, 
+import {
+  Activity,
+  CheckCircle2,
+  Clock,
+  MapPin,
+  Search,
+  ShieldAlert,
+  AlertTriangle,
+  Thermometer,
+  Droplets,
   HeartPulse,
   Filter,
   ArrowUpRight
@@ -52,7 +52,7 @@ export default function NurseDashboard() {
   const { tasks, isLoading, updateTask, fetchTasks } = useTasks();
   const { user } = useAuth();
   const { wards, fetchWards } = useAdmin();
-  
+
   const [selectedTask, setSelectedTask] = useState<Intervention | null>(null);
   const [taskResult, setTaskResult] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,7 +93,7 @@ export default function NurseDashboard() {
     return new Date(date) < new Date();
   };
 
-  const filteredTasks = (tasks as Intervention[]).filter(t => 
+  const filteredTasks = (tasks as Intervention[]).filter(t =>
     t.roomNumber?.toLowerCase().includes(filterRoom.toLowerCase())
   );
 
@@ -106,25 +106,25 @@ export default function NurseDashboard() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Ward Task Queue</h1>
-            <p className="text-muted-foreground font-medium italic">Shift execution for {user?.username}. Monitoring {tasks.length} interventions.</p>
+            <p className="text-muted-foreground font-medium">Shift execution for {user?.username}. Monitoring {tasks.length} interventions.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-            <Select value={selectedWard} onValueChange={setSelectedWard}>
-                <SelectTrigger className="w-[180px] rounded-xl h-11 bg-muted/50 border-none shadow-none font-bold">
-                    <SelectValue placeholder="All Wards" />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl border-none shadow-2xl">
-                    <SelectItem value="all">All Wards</SelectItem>
-                    {wards.map(w => (
-                        <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <Button variant="outline" className="rounded-xl border-2 h-11 font-bold">
-                <ArrowUpRight className="mr-2 h-4 w-4" />
-                Duty Roster
-            </Button>
+          <Select value={selectedWard} onValueChange={setSelectedWard}>
+            <SelectTrigger className="w-[180px] rounded-xl h-11 bg-muted/50 border-none shadow-none font-bold">
+              <SelectValue placeholder="All Wards" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border-none shadow-2xl">
+              <SelectItem value="all">All Wards</SelectItem>
+              {wards.map(w => (
+                <SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button variant="outline" className="rounded-xl border-2 h-11 font-bold">
+            <ArrowUpRight className="mr-2 h-4 w-4" />
+            Duty Roster
+          </Button>
         </div>
       </div>
 
@@ -135,16 +135,16 @@ export default function NurseDashboard() {
             <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Real-time medication & metric log</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Filter by Room..." 
-                  className="pl-9 h-11 w-[200px] bg-muted/50 border-none rounded-xl font-medium" 
-                  value={filterRoom}
-                  onChange={(e) => setFilterRoom(e.target.value)}
-                />
-             </div>
-             <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter by Room..."
+                className="pl-9 h-11 w-[200px] bg-muted/50 border-none rounded-xl font-medium"
+                value={filterRoom}
+                onChange={(e) => setFilterRoom(e.target.value)}
+              />
+            </div>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -188,21 +188,21 @@ export default function NurseDashboard() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                            {task.priority === "urgent" && <ShieldAlert className="h-5 w-5 text-destructive animate-pulse" />}
-                            <span className="font-bold text-foreground/70">{task.description}</span>
+                          {task.priority === "urgent" && <ShieldAlert className="h-5 w-5 text-destructive animate-pulse" />}
+                          <span className="font-bold text-foreground/70">{task.description}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge 
-                            variant={task.type === "medication" ? "secondary" : task.type === "alert" ? "destructive" : "outline"} 
-                            className={`rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-wider ${task.type === 'medication' ? 'bg-info/10 text-info border-info/20' : ''}`}
+                        <Badge
+                          variant={task.type === "medication" ? "secondary" : task.type === "alert" ? "destructive" : "outline"}
+                          className={`rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-wider ${task.type === 'medication' ? 'bg-info/10 text-info border-info/20' : ''}`}
                         >
                           {task.type}
                         </Badge>
                       </TableCell>
                       <TableCell className="px-8 text-right">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant={task.priority === "urgent" ? "destructive" : "default"}
                           className="rounded-xl h-10 px-6 font-black shadow-lg shadow-primary/10 transition-all hover:scale-105"
                           onClick={() => setSelectedTask(task)}
@@ -215,7 +215,7 @@ export default function NurseDashboard() {
                   ))}
                   {filteredTasks.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center py-20 text-muted-foreground italic font-medium">
+                      <TableCell colSpan={5} className="text-center py-20 text-muted-foreground font-medium">
                         No pending interventions for this location.
                       </TableCell>
                     </TableRow>
@@ -231,55 +231,55 @@ export default function NurseDashboard() {
       <Dialog open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
         <DialogContent className="sm:max-w-[550px] rounded-[2.5rem] overflow-hidden p-0 border-none shadow-2xl">
           <div className="bg-primary p-8 text-primary-foreground relative overflow-hidden">
-              <div className="absolute right-[-20px] top-[-20px] opacity-10">
-                <ShieldAlert className="h-40 w-40" />
-              </div>
-              <DialogHeader>
-                <DialogTitle className="flex items-center gap-3 text-3xl font-black italic">
-                   Clinical Safety Gate
-                </DialogTitle>
-                <DialogDescription className="text-primary-foreground/80 font-medium">
-                  Verify patient identity & safety metrics for Room {selectedTask?.roomNumber}.
-                </DialogDescription>
-              </DialogHeader>
+            <div className="absolute right-[-20px] top-[-20px] opacity-10">
+              <ShieldAlert className="h-40 w-40" />
+            </div>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-3 text-3xl font-black">
+                Clinical Safety Gate
+              </DialogTitle>
+              <DialogDescription className="text-primary-foreground/80 font-medium">
+                Verify patient identity & safety metrics for Room {selectedTask?.roomNumber}.
+              </DialogDescription>
+            </DialogHeader>
           </div>
-          
+
           <div className="p-8 space-y-8">
             <div className="grid grid-cols-2 gap-4">
-                <div className="p-5 bg-destructive/5 rounded-2xl border-none flex flex-col gap-2">
-                    <span className="text-[10px] font-black uppercase text-destructive tracking-widest flex items-center gap-2">
-                        <AlertTriangle className="h-3 w-3" />
-                        Critical Allergies
-                    </span>
-                    {loadingBrief ? (
-                        <div className="h-4 w-20 bg-destructive/10 animate-pulse rounded"></div>
-                    ) : (brief?.allergies?.length || 0) > 0 ? (
-                        <div className="flex flex-wrap gap-2">
-                            {brief?.allergies.map((a) => (
-                                <Badge key={a} className="bg-destructive text-destructive-foreground border-none text-[10px] font-black">{a}</Badge>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-sm font-black text-success">SAFE: No Allergies</p>
-                    )}
-                </div>
-                <div className="p-5 bg-info/5 rounded-2xl border-none flex flex-col gap-2">
-                    <span className="text-[10px] font-black uppercase text-info tracking-widest flex items-center gap-2">
-                        <Activity className="h-3 w-3" />
-                        Vital Baseline
-                    </span>
-                    {loadingBrief ? (
-                        <div className="h-4 w-20 bg-info/10 animate-pulse rounded"></div>
-                    ) : brief?.lastVitals ? (
-                        <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-                            <div className="flex items-center gap-1 text-[11px] font-bold text-foreground/80"><Thermometer className="h-3 w-3 text-info"/> {brief.lastVitals.temperature}°C</div>
-                            <div className="flex items-center gap-1 text-[11px] font-bold text-foreground/80"><Droplets className="h-3 w-3 text-info"/> {brief.lastVitals.spO2}%</div>
-                            <div className="flex items-center gap-1 text-[11px] font-black text-primary"><HeartPulse className="h-3 w-3 text-primary"/> {brief.lastVitals.bloodPressure}</div>
-                        </div>
-                    ) : (
-                        <p className="text-xs text-muted-foreground italic font-medium">No recent telemetry</p>
-                    )}
-                </div>
+              <div className="p-5 bg-destructive/5 rounded-2xl border-none flex flex-col gap-2">
+                <span className="text-[10px] font-black uppercase text-destructive tracking-widest flex items-center gap-2">
+                  <AlertTriangle className="h-3 w-3" />
+                  Critical Allergies
+                </span>
+                {loadingBrief ? (
+                  <div className="h-4 w-20 bg-destructive/10 animate-pulse rounded"></div>
+                ) : (brief?.allergies?.length || 0) > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {brief?.allergies.map((a) => (
+                      <Badge key={a} className="bg-destructive text-destructive-foreground border-none text-[10px] font-black">{a}</Badge>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm font-black text-success">SAFE: No Allergies</p>
+                )}
+              </div>
+              <div className="p-5 bg-info/5 rounded-2xl border-none flex flex-col gap-2">
+                <span className="text-[10px] font-black uppercase text-info tracking-widest flex items-center gap-2">
+                  <Activity className="h-3 w-3" />
+                  Vital Baseline
+                </span>
+                {loadingBrief ? (
+                  <div className="h-4 w-20 bg-info/10 animate-pulse rounded"></div>
+                ) : brief?.lastVitals ? (
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-1">
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-foreground/80"><Thermometer className="h-3 w-3 text-info" /> {brief.lastVitals.temperature}°C</div>
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-foreground/80"><Droplets className="h-3 w-3 text-info" /> {brief.lastVitals.spO2}%</div>
+                    <div className="flex items-center gap-1 text-[11px] font-black text-primary"><HeartPulse className="h-3 w-3 text-primary" /> {brief.lastVitals.bloodPressure}</div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground font-medium">No recent telemetry</p>
+                )}
+              </div>
             </div>
 
             <div className="p-6 bg-muted rounded-3xl space-y-3 relative">
@@ -297,9 +297,9 @@ export default function NurseDashboard() {
             {selectedTask?.type === "metric" && (
               <div className="space-y-3">
                 <Label htmlFor="result" className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Observation Value / Reading</Label>
-                <Input 
-                  id="result" 
-                  placeholder="e.g. 120/80 or 37.2" 
+                <Input
+                  id="result"
+                  placeholder="e.g. 120/80 or 37.2"
                   value={taskResult}
                   onChange={(e) => setTaskResult(e.target.value)}
                   autoFocus
@@ -312,18 +312,18 @@ export default function NurseDashboard() {
               <Button variant="ghost" className="flex-1 rounded-2xl h-14 font-bold text-muted-foreground" onClick={() => setSelectedTask(null)}>
                 Abort
               </Button>
-              <Button 
+              <Button
                 className="flex-[2] rounded-2xl h-14 shadow-2xl shadow-primary/20 gap-3 text-xl font-black"
                 onClick={handleComplete}
                 disabled={isSubmitting || (selectedTask?.type === "metric" && !taskResult)}
               >
                 {isSubmitting ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                 ) : (
-                    <>
-                        <CheckCircle2 className="h-6 w-6" />
-                        Execute Task
-                    </>
+                  <>
+                    <CheckCircle2 className="h-6 w-6" />
+                    Execute Task
+                  </>
                 )}
               </Button>
             </div>

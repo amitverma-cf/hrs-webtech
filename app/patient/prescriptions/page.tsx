@@ -19,26 +19,26 @@ export default function PatientPrescriptionsPage() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Prescription Log</h1>
-            <p className="text-muted-foreground font-medium italic">Active pharmacological protocols and medication history.</p>
+            <p className="text-muted-foreground font-medium">Active pharmacological protocols and medication history.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-            <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
-                <ShieldCheck className="h-4 w-4" />
-                Safety Guidelines
-            </Button>
+          <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
+            <ShieldCheck className="h-4 w-4" />
+            Safety Guidelines
+          </Button>
         </div>
       </div>
 
       <div className="flex items-center justify-between bg-card p-6 rounded-[2rem] border-none shadow-sm">
-         <div className="flex items-center gap-4">
-            <Badge className="bg-primary/10 text-primary border-none font-bold px-4 py-1.5 rounded-full uppercase tracking-widest text-[10px]">
-                {prescriptions.length} Active Orders
-            </Badge>
-         </div>
-         <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
-         </div>
+        <div className="flex items-center gap-4">
+          <Badge className="bg-primary/10 text-primary border-none font-bold px-4 py-1.5 rounded-full uppercase tracking-widest text-[10px]">
+            {prescriptions.length} Active Orders
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+        </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-2">
@@ -54,21 +54,21 @@ export default function PatientPrescriptionsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-2xl font-black text-slate-800 flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-xl">
-                            <Pill className="h-5 w-5 text-primary" />
-                        </div>
-                        {p.medicationName}
+                      <div className="p-2 bg-primary/10 rounded-xl">
+                        <Pill className="h-5 w-5 text-primary" />
+                      </div>
+                      {p.medicationName}
                     </CardTitle>
                     <CardDescription className="font-bold text-[10px] uppercase tracking-widest text-muted-foreground">Order Ref: RX-{p.id?.substring(0, 6).toUpperCase() || 'NEW'}</CardDescription>
                   </div>
-                  <Badge 
+                  <Badge
                     variant={p.status === "dispensed" ? "default" : "secondary"}
                     className={`rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-wider ${p.status === 'dispensed' ? 'bg-success/10 text-success hover:bg-success/20 border-success/20' : ''}`}
                   >
                     {p.status === 'dispensed' ? (
-                        <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3" /> Dispensed</span>
+                      <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3" /> Dispensed</span>
                     ) : (
-                        <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" /> {p.status}</span>
+                      <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" /> {p.status}</span>
                     )}
                   </Badge>
                 </div>
@@ -102,15 +102,15 @@ export default function PatientPrescriptionsPage() {
             </Card>
           ))
         ) : (
-            <div className="col-span-full text-center py-32 space-y-4">
-                <div className="h-20 w-20 bg-muted/50 rounded-full flex items-center justify-center mx-auto shadow-inner">
-                    <ClipboardList className="h-10 w-10 text-muted-foreground opacity-20" />
-                </div>
-                <div className="max-w-xs mx-auto">
-                    <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">No active orders</p>
-                    <p className="text-sm text-muted-foreground font-medium italic mt-1">Your pharmacological history will be automatically updated here by clinical staff.</p>
-                </div>
+          <div className="col-span-full text-center py-32 space-y-4">
+            <div className="h-20 w-20 bg-muted/50 rounded-full flex items-center justify-center mx-auto shadow-inner">
+              <ClipboardList className="h-10 w-10 text-muted-foreground opacity-20" />
             </div>
+            <div className="max-w-xs mx-auto">
+              <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">No active orders</p>
+              <p className="text-sm text-muted-foreground font-medium mt-1">Your pharmacological history will be automatically updated here by clinical staff.</p>
+            </div>
+          </div>
         )}
       </div>
     </div>

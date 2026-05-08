@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import { useAdmin } from "@/hooks/use-admin";
 import { Receipt, TrendingUp, Download, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ export default function AdminBillingPage() {
             <p className="text-muted-foreground">Monitor hospital financial records and patient invoices.</p>
           </div>
         </div>
-        <Button className="rounded-xl shadow-lg shadow-primary/20 gap-2">
+        <Button className="rounded-xl shadow-lg shadow-primary/20 gap-2" onClick={() => window.print()}>
           <Download className="h-4 w-4" />
           Export Report
         </Button>
@@ -60,7 +60,7 @@ export default function AdminBillingPage() {
             <p className="text-xs mt-1 opacity-70">+12.5% from last month</p>
           </CardContent>
         </Card>
-        
+
         <Card className="rounded-2xl shadow-sm border-none bg-card overflow-hidden">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Pending Invoices</CardTitle>
@@ -119,7 +119,7 @@ export default function AdminBillingPage() {
                 <TableBody>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {billing.map((invoice: any) => (
-                    <TableRow key={invoice.id} className="hover:bg-muted/30 transition-colors">
+                    <TableRow key={invoice.id + invoice.createdAt} className="hover:bg-muted/30 transition-colors">
                       <TableCell className="font-mono text-xs uppercase">{invoice.id?.substring(0, 8) || 'NEW'}</TableCell>
                       <TableCell className="font-medium">{invoice.patientName || "Unknown Patient"}</TableCell>
                       <TableCell className="text-muted-foreground">
@@ -127,7 +127,7 @@ export default function AdminBillingPage() {
                       </TableCell>
                       <TableCell className="font-semibold">${invoice.total?.toLocaleString()}</TableCell>
                       <TableCell>
-                        <Badge 
+                        <Badge
                           variant={invoice.status === "paid" ? "default" : "secondary"}
                           className={invoice.status === "paid" ? "bg-success/10 text-success hover:bg-success/20 border-success/20" : ""}
                         >
@@ -141,7 +141,7 @@ export default function AdminBillingPage() {
                   ))}
                   {billing.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center py-10 text-muted-foreground italic">
+                      <TableCell colSpan={6} className="text-center py-10 text-muted-foreground">
                         No billing records found.
                       </TableCell>
                     </TableRow>

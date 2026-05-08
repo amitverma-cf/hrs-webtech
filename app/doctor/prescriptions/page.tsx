@@ -28,7 +28,7 @@ export default function DoctorPrescriptionsPage() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Prescription Review</h1>
-            <p className="text-muted-foreground font-medium italic">Pharmacological order history and dispensing lifecycle tracking.</p>
+            <p className="text-muted-foreground font-medium">Pharmacological order history and dispensing lifecycle tracking.</p>
           </div>
         </div>
         <Button className="rounded-2xl h-12 px-6 shadow-lg shadow-primary/20 gap-2 font-bold">
@@ -44,14 +44,14 @@ export default function DoctorPrescriptionsPage() {
             <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Tracking {prescriptions.length} historical dispensations</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Filter by patient or drug..." 
-                  className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium" 
-                />
-             </div>
-             <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter by patient or drug..."
+                className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium"
+              />
+            </div>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -76,18 +76,18 @@ export default function DoctorPrescriptionsPage() {
                     <TableRow key={p.id} className="hover:bg-muted/10 transition-colors border-b last:border-0 group">
                       <TableCell className="px-8 py-6">
                         <div className="flex flex-col">
-                            <span className="font-black text-lg text-foreground/80 leading-none mb-1">{p.medicationName}</span>
-                            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">RX-NODE: {p.id?.substring(0, 8).toUpperCase() || 'NEW'}</span>
+                          <span className="font-black text-lg text-foreground/80 leading-none mb-1">{p.medicationName}</span>
+                          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">RX-NODE: {p.id?.substring(0, 8).toUpperCase() || 'NEW'}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col">
-                            <span className="text-sm font-bold text-foreground/70">{p.dosage} — {p.frequency}</span>
-                            <span className="text-[10px] font-black text-muted-foreground uppercase">Duration: {p.duration}</span>
+                          <span className="text-sm font-bold text-foreground/70">{p.dosage} — {p.frequency}</span>
+                          <span className="text-[10px] font-black text-muted-foreground uppercase">Duration: {p.duration}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge 
+                        <Badge
                           variant={p.status === "dispensed" ? "default" : "secondary"}
                           className={`rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-wider ${p.status === 'dispensed' ? 'bg-success/10 text-success hover:bg-success/20 border-success/20' : ''}`}
                         >
@@ -105,7 +105,7 @@ export default function DoctorPrescriptionsPage() {
                   ))}
                   {prescriptions.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center py-20 text-muted-foreground italic font-medium">
+                      <TableCell colSpan={4} className="text-center py-20 text-muted-foreground font-medium">
                         No pharmacological orders in current session logs.
                       </TableCell>
                     </TableRow>

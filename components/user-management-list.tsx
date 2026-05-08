@@ -11,12 +11,12 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select";
 import { UserCheck, Trash2, ShieldAlert, UserCog } from "lucide-react";
 import { toast } from "sonner";
@@ -30,7 +30,7 @@ interface UserManagementListProps {
 }
 
 export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserManagementListProps) {
-  
+
   const handleApprove = async (id: string) => {
     try {
       await onUpdateUser(id, { accountStatus: "active" });
@@ -90,7 +90,7 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
                   <Avatar className="h-10 w-10 border-2 border-primary/5 shadow-sm">
                     <AvatarImage src={`https://avatar.vercel.sh/${user.username}`} />
                     <AvatarFallback className="bg-primary/10 text-primary font-black uppercase">
-                        {user.username?.[0]}
+                      {user.username?.[0]}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col">
@@ -100,14 +100,14 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
                 </div>
               </TableCell>
               <TableCell>
-                <Select 
-                  value={user.role} 
+                <Select
+                  value={user.role}
                   onValueChange={(val) => handleRoleChange(user.id!, val)}
                 >
                   <SelectTrigger className="h-9 w-36 rounded-xl text-xs font-bold border-none bg-muted/50 hover:bg-muted transition-colors">
                     <div className="flex items-center gap-2">
-                        <UserCog className="h-3 w-3 text-primary" />
-                        <SelectValue />
+                      <UserCog className="h-3 w-3 text-primary" />
+                      <SelectValue />
                     </div>
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-none shadow-2xl">
@@ -126,8 +126,8 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
                     Pending Approval
                   </Badge>
                 ) : (
-                  <Badge 
-                    variant={user.accountStatus === "active" ? "default" : "destructive"} 
+                  <Badge
+                    variant={user.accountStatus === "active" ? "default" : "destructive"}
                     className={`capitalize rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-wider ${user.accountStatus === 'active' ? 'bg-success/10 text-success hover:bg-success/20 border-success/20' : ''}`}
                   >
                     {user.accountStatus}
@@ -136,7 +136,7 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
-                  <Switch 
+                  <Switch
                     disabled={user.accountStatus === "inactive"}
                     checked={user.accountStatus === "active"}
                     onCheckedChange={() => handleToggleActive(user.id!, user.accountStatus)}
@@ -150,9 +150,9 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
               <TableCell className="px-8 text-right">
                 <div className="flex justify-end gap-2">
                   {user.accountStatus === "inactive" && (
-                    <Button 
-                      size="sm" 
-                      variant="default" 
+                    <Button
+                      size="sm"
+                      variant="default"
                       className="h-9 rounded-xl gap-2 font-bold px-4 shadow-lg shadow-primary/10"
                       onClick={() => handleApprove(user.id!)}
                     >
@@ -160,9 +160,9 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
                       Approve
                     </Button>
                   )}
-                  <Button 
-                    size="icon" 
-                    variant="ghost" 
+                  <Button
+                    size="icon"
+                    variant="ghost"
                     className="h-9 w-9 rounded-xl text-destructive hover:bg-destructive/10 transition-all hover:scale-110"
                     onClick={() => handleDelete(user.id!)}
                   >
@@ -174,7 +174,7 @@ export function UserManagementList({ users, onUpdateUser, onDeleteUser }: UserMa
           ))}
           {users.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-20 text-muted-foreground italic font-medium">
+              <TableCell colSpan={5} className="text-center py-20 text-muted-foreground font-medium">
                 No clinical personnel found in the directory.
               </TableCell>
             </TableRow>

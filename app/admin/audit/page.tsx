@@ -16,7 +16,7 @@ export default function AdminAuditPage() {
     fetchAuditLogs();
   }, [fetchAuditLogs]);
 
-  const filteredLogs = auditLogs.filter(log => 
+  const filteredLogs = auditLogs.filter(log =>
     log.action.toLowerCase().includes(search.toLowerCase()) ||
     log.resourceType.toLowerCase().includes(search.toLowerCase()) ||
     log.performedBy.toLowerCase().includes(search.toLowerCase())
@@ -31,13 +31,13 @@ export default function AdminAuditPage() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">System Audit</h1>
-            <p className="text-muted-foreground font-medium italic">Immutable compliance logs and clinical event tracking.</p>
+            <p className="text-muted-foreground font-medium">Immutable compliance logs and clinical event tracking.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2">
+          <Button variant="outline" className="rounded-xl border-2 h-11 font-bold gap-2" onClick={() => window.print()}>
             <Download className="h-4 w-4" />
-            Export CSV
+            Export
           </Button>
           <Button className="rounded-xl shadow-lg shadow-primary/20 h-11 font-bold gap-2">
             <History className="h-4 w-4" />
@@ -53,16 +53,16 @@ export default function AdminAuditPage() {
             <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Monitoring {auditLogs.length} verified events</CardDescription>
           </div>
           <div className="flex items-center gap-3">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Filter logs..." 
-                  className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium" 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-             </div>
-             <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter logs..."
+                className="pl-9 h-11 w-[250px] bg-muted/50 border-none rounded-xl font-medium"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-2"><Filter className="h-4 w-4" /></Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">

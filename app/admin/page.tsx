@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { useAdmin } from "@/hooks/use-admin";
-import { 
-  Users, 
-  BedDouble, 
+import {
+  Users,
+  BedDouble,
   Receipt,
   TrendingUp,
   Activity,
@@ -17,21 +17,21 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { User, Bed } from "@/lib/schemas";
-import { 
-    Table, 
-    TableBody, 
-    TableCell, 
-    TableHead, 
-    TableHeader, 
-    TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 
 export default function AdminDashboard() {
-  const { 
-    users, 
+  const {
+    users,
     beds,
     billing,
-    fetchUsers, 
+    fetchUsers,
     fetchBeds,
     fetchBilling
   } = useAdmin();
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">Staff Directory</CardTitle>
             <div className="p-2 bg-info/10 rounded-lg text-info">
-                <Users className="h-4 w-4" />
+              <Users className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
@@ -85,13 +85,13 @@ export default function AdminDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">Bed Occupancy</CardTitle>
             <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                <BedDouble className="h-4 w-4" />
+              <BedDouble className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{occupancyRate}%</div>
             <div className="mt-3">
-                <Progress value={occupancyRate} className="h-2" />
+              <Progress value={occupancyRate} className="h-2" />
             </div>
             <p className="text-xs text-muted-foreground mt-2">
               {occupiedBeds} of {beds.length} units currently in use
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">Revenue Flow</CardTitle>
             <div className="p-2 bg-success/10 rounded-lg text-success">
-                <Receipt className="h-4 w-4" />
+              <Receipt className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
@@ -116,9 +116,9 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="rounded-[2rem] border-none shadow-sm bg-primary text-primary-foreground overflow-hidden relative">
-            <div className="absolute right-[-20px] bottom-[-20px] opacity-10">
-                <Activity className="h-32 w-32" />
-            </div>
+          <div className="absolute right-[-20px] bottom-[-20px] opacity-10">
+            <Activity className="h-32 w-32" />
+          </div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest opacity-80">System Status</CardTitle>
             <Activity className="h-4 w-4 opacity-80" />
@@ -127,7 +127,7 @@ export default function AdminDashboard() {
             <div className="text-3xl font-bold">Stable</div>
             <p className="text-xs mt-1 opacity-70">All clinical nodes operational</p>
             <Button variant="secondary" size="sm" className="mt-4 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 border-none text-primary-foreground text-[10px] h-7">
-                Diagnostics
+              Diagnostics
             </Button>
           </CardContent>
         </Card>
@@ -137,8 +137,8 @@ export default function AdminDashboard() {
         <Card className="rounded-[2rem] border-none shadow-sm bg-card h-full">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-                <CardTitle className="text-xl font-bold">Staff Onboarding</CardTitle>
-                <CardDescription>Recently registered medical personnel.</CardDescription>
+              <CardTitle className="text-xl font-bold">Staff Onboarding</CardTitle>
+              <CardDescription>Recently registered medical personnel.</CardDescription>
             </div>
             <Button variant="ghost" size="icon" className="rounded-xl"><ArrowUpRight className="h-5 w-5" /></Button>
           </CardHeader>
@@ -160,49 +160,49 @@ export default function AdminDashboard() {
                   </Badge>
                 </div>
               ))}
-              {users.length === 0 && <p className="text-center py-6 text-muted-foreground italic text-sm">No recent staff activity.</p>}
+              {users.length === 0 && <p className="text-center py-6 text-muted-foreground text-sm">No recent staff activity.</p>}
             </div>
             <Button className="w-full mt-6 rounded-xl bg-muted/50 text-foreground hover:bg-muted border-none font-bold">
-                View All Personnel
+              View All Personnel
             </Button>
           </CardContent>
         </Card>
 
         <Card className="rounded-[2rem] border-none shadow-sm bg-card h-full">
           <CardHeader className="flex flex-row items-center justify-between">
-             <div>
-                <CardTitle className="text-xl font-bold">Facility Status</CardTitle>
-                <CardDescription>Live room and bed allocation monitoring.</CardDescription>
+            <div>
+              <CardTitle className="text-xl font-bold">Facility Status</CardTitle>
+              <CardDescription>Live room and bed allocation monitoring.</CardDescription>
             </div>
             <Button variant="ghost" size="icon" className="rounded-xl"><PlusCircle className="h-5 w-5" /></Button>
           </CardHeader>
           <CardContent>
-             <div className="rounded-xl border border-muted/50 overflow-hidden">
-                <Table>
-                    <TableHeader className="bg-muted/30">
-                        <TableRow>
-                            <TableHead className="text-[10px] font-black uppercase">Room</TableHead>
-                            <TableHead className="text-[10px] font-black uppercase">Status</TableHead>
-                            <TableHead className="text-[10px] font-black uppercase">Occupant</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {beds.slice(0, 5).map((bed: Bed & { currentPatientName?: string }) => (
-                            <TableRow key={bed.id} className="hover:bg-muted/20 transition-colors">
-                                <TableCell className="font-bold py-3">#{bed.roomNumber}</TableCell>
-                                <TableCell className="py-3">
-                                    <div className={`h-2 w-2 rounded-full ${bed.isOccupied ? 'bg-destructive' : 'bg-success'}`} />
-                                </TableCell>
-                                <TableCell className="text-xs text-muted-foreground py-3">
-                                    {bed.isOccupied ? (bed.currentPatientName || "Anonymous Patient") : "Vacant"}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-             </div>
-             <Button className="w-full mt-6 rounded-xl bg-muted/50 text-foreground hover:bg-muted border-none font-bold">
-                Manage Facility
+            <div className="rounded-xl border border-muted/50 overflow-hidden">
+              <Table>
+                <TableHeader className="bg-muted/30">
+                  <TableRow>
+                    <TableHead className="text-[10px] font-black uppercase">Room</TableHead>
+                    <TableHead className="text-[10px] font-black uppercase">Status</TableHead>
+                    <TableHead className="text-[10px] font-black uppercase">Occupant</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {beds.slice(0, 5).map((bed: Bed & { currentPatientName?: string }) => (
+                    <TableRow key={bed.id} className="hover:bg-muted/20 transition-colors">
+                      <TableCell className="font-bold py-3">#{bed.roomNumber}</TableCell>
+                      <TableCell className="py-3">
+                        <div className={`h-2 w-2 rounded-full ${bed.isOccupied ? 'bg-destructive' : 'bg-success'}`} />
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground py-3">
+                        {bed.isOccupied ? (bed.currentPatientName || "Anonymous Patient") : "Vacant"}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <Button className="w-full mt-6 rounded-xl bg-muted/50 text-foreground hover:bg-muted border-none font-bold">
+              Manage Facility
             </Button>
           </CardContent>
         </Card>

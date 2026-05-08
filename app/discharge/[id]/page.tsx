@@ -4,13 +4,13 @@ import React, { use } from "react";
 import { usePatientChart } from "@/hooks/use-patient-chart";
 import { PrintLayout } from "@/components/layout/print-layout";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 
 export default function DischargeSummary({
@@ -44,67 +44,67 @@ export default function DischargeSummary({
 
       <div className="grid md:grid-cols-2 gap-8">
         <section className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wide flex items-center gap-2">
-                Clinical Observations
-            </h3>
-            <div className="rounded-xl border p-4 space-y-4 bg-muted/5 shadow-sm">
+          <h3 className="text-sm font-bold uppercase tracking-wide flex items-center gap-2">
+            Clinical Observations
+          </h3>
+          <div className="rounded-xl border p-4 space-y-4 bg-muted/5 shadow-sm">
             {timelineEvents.filter(e => e.type === "note").map(note => (
-                <div key={note.id} className="space-y-1">
-                <div className="flex justify-between items-center italic text-[10px]">
-                    <span>{new Date(note.date).toLocaleDateString()}</span>
-                    <span>Dr. {note.metadata?.Doctor}</span>
+              <div key={note.id} className="space-y-1">
+                <div className="flex justify-between items-center text-[10px]">
+                  <span>{new Date(note.date).toLocaleDateString()}</span>
+                  <span>Dr. {note.metadata?.Doctor}</span>
                 </div>
                 <p className="text-sm font-medium">{note.description}</p>
                 <Separator className="mt-2 opacity-50" />
-                </div>
+              </div>
             ))}
             {timelineEvents.filter(e => e.type === "note").length === 0 && (
-                <p className="text-sm text-muted-foreground italic">No clinical notes recorded during stay.</p>
+              <p className="text-sm text-muted-foreground">No clinical notes recorded during stay.</p>
             )}
-            </div>
+          </div>
 
-            <h3 className="text-sm font-bold uppercase tracking-wide mt-8">Recent Vitals</h3>
-            <div className="grid grid-cols-4 gap-2 text-center">
-                {timelineEvents.filter(e => e.type === "vital").slice(0, 1).map(v => (
-                    <React.Fragment key={v.id}>
-                        <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">Temp</p><p className="font-bold text-xs">{v.description.split(",")[0]?.split(":")[1] || "—"}</p></div>
-                        <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">BP</p><p className="font-bold text-xs">{v.description.split(",")[1]?.split(":")[1] || "—"}</p></div>
-                        <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">SpO2</p><p className="font-bold text-xs">{v.metadata.SpO2 || "—"}</p></div>
-                        <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">HR</p><p className="font-bold text-xs">{v.metadata.HR || "—"}</p></div>
-                    </React.Fragment>
-                ))}
-            </div>
+          <h3 className="text-sm font-bold uppercase tracking-wide mt-8">Recent Vitals</h3>
+          <div className="grid grid-cols-4 gap-2 text-center">
+            {timelineEvents.filter(e => e.type === "vital").slice(0, 1).map(v => (
+              <React.Fragment key={v.id}>
+                <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">Temp</p><p className="font-bold text-xs">{v.description.split(",")[0]?.split(":")[1] || "—"}</p></div>
+                <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">BP</p><p className="font-bold text-xs">{v.description.split(",")[1]?.split(":")[1] || "—"}</p></div>
+                <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">SpO2</p><p className="font-bold text-xs">{v.metadata.SpO2 || "—"}</p></div>
+                <div className="bg-muted/30 p-2 rounded-lg"><p className="text-[9px] uppercase">HR</p><p className="font-bold text-xs">{v.metadata.HR || "—"}</p></div>
+              </React.Fragment>
+            ))}
+          </div>
         </section>
 
         <section className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-primary">Final Itemized Statement</h3>
-            <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
-                <Table>
-                    <TableHeader className="bg-muted/50">
-                        <TableRow>
-                            <TableHead className="text-[10px]">Description</TableHead>
-                            <TableHead className="text-right text-[10px]">Amount</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className="text-xs font-semibold">Base Admission Fee</TableCell>
-                            <TableCell className="text-right text-xs">$100.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="text-xs">Inpatient Care (Daily Rate)</TableCell>
-                            <TableCell className="text-right text-xs">$150.00</TableCell>
-                        </TableRow>
-                        <TableRow className="bg-primary/5">
-                            <TableCell className="text-sm font-bold">Total Payable</TableCell>
-                            <TableCell className="text-right text-sm font-bold text-primary">$250.00</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </div>
-            <p className="text-[10px] text-muted-foreground italic px-2">
-                * This is a generated summary. Official invoices are issued by the hospital finance department.
-            </p>
+          <h3 className="text-sm font-bold uppercase tracking-wide text-primary">Final Itemized Statement</h3>
+          <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
+            <Table>
+              <TableHeader className="bg-muted/50">
+                <TableRow>
+                  <TableHead className="text-[10px]">Description</TableHead>
+                  <TableHead className="text-right text-[10px]">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="text-xs font-semibold">Base Admission Fee</TableCell>
+                  <TableCell className="text-right text-xs">$100.00</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="text-xs">Inpatient Care (Daily Rate)</TableCell>
+                  <TableCell className="text-right text-xs">$150.00</TableCell>
+                </TableRow>
+                <TableRow className="bg-primary/5">
+                  <TableCell className="text-sm font-bold">Total Payable</TableCell>
+                  <TableCell className="text-right text-sm font-bold text-primary">$250.00</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+          <p className="text-[10px] text-muted-foreground px-2">
+            * This is a generated summary. Official invoices are issued by the hospital finance department.
+          </p>
         </section>
       </div>
 

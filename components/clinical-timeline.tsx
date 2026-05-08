@@ -31,7 +31,7 @@ export function ClinicalTimeline({ events }: ClinicalTimelineProps) {
           {index !== events.length - 1 && (
             <div className="absolute left-[19px] top-8 h-[calc(100%+32px)] w-[2px] bg-muted" />
           )}
-          
+
           <div className="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-background shadow-sm">
             {getIcon(event.type)}
           </div>
@@ -61,7 +61,7 @@ export function ClinicalTimeline({ events }: ClinicalTimelineProps) {
 
       {events.length === 0 && (
         <div className="text-center py-20 border-2 border-dashed rounded-lg">
-          <p className="text-muted-foreground italic">No clinical history recorded for this patient.</p>
+          <p className="text-muted-foreground">No clinical history recorded for this patient.</p>
         </div>
       )}
     </div>

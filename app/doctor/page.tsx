@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { usePatients } from "@/hooks/use-patients";
 import { AdmissionWithDetails, Bed } from "@/lib/schemas";
 import { useAuth } from "@/hooks/use-auth";
-import { 
-  Stethoscope, 
-  Users, 
-  BedDouble, 
-  TrendingUp, 
+import {
+  Stethoscope,
+  Users,
+  BedDouble,
+  TrendingUp,
   PlusCircle,
   Calendar,
   Activity,
@@ -62,7 +62,7 @@ export default function DoctorDashboard() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Clinical Overview</h1>
-            <p className="text-muted-foreground font-medium italic">Welcome back, Dr. {user?.username}. Monitoring {activeAdmissions.length} active patients.</p>
+            <p className="text-muted-foreground font-medium">Welcome back, Dr. {user?.username}. Monitoring {activeAdmissions.length} active patients.</p>
           </div>
         </div>
         <Button onClick={() => router.push('/doctor/patients')} className="rounded-2xl h-12 px-6 shadow-lg shadow-primary/20 gap-2 font-bold">
@@ -76,7 +76,7 @@ export default function DoctorDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">Total Directory</CardTitle>
             <div className="p-2 bg-info/10 rounded-lg text-info">
-                <Users className="h-4 w-4" />
+              <Users className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
@@ -89,7 +89,7 @@ export default function DoctorDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">Active Care</CardTitle>
             <div className="p-2 bg-success/10 rounded-lg text-success">
-                <Activity className="h-4 w-4" />
+              <Activity className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
@@ -102,22 +102,22 @@ export default function DoctorDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">Ward Capacity</CardTitle>
             <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                <BedDouble className="h-4 w-4" />
+              <BedDouble className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{occupancyRate}%</div>
             <div className="mt-3">
-                <Progress value={occupancyRate} className="h-2" />
+              <Progress value={occupancyRate} className="h-2" />
             </div>
             <p className="text-xs text-muted-foreground mt-2">{occupiedBeds} of {beds.length} beds in use</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-[2rem] border-none shadow-sm bg-primary text-primary-foreground overflow-hidden relative">
-            <div className="absolute right-[-20px] bottom-[-20px] opacity-10">
-                <ClipboardList className="h-32 w-32" />
-            </div>
+          <div className="absolute right-[-20px] bottom-[-20px] opacity-10">
+            <ClipboardList className="h-32 w-32" />
+          </div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs font-black uppercase tracking-widest opacity-80">Pending Reviews</CardTitle>
             <ClipboardList className="h-4 w-4 opacity-80" />
@@ -126,7 +126,7 @@ export default function DoctorDashboard() {
             <div className="text-3xl font-bold">12</div>
             <p className="text-xs mt-1 opacity-70">Protocols awaiting update</p>
             <Button variant="secondary" size="sm" className="mt-4 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 border-none text-primary-foreground text-[10px] h-7">
-                Process All
+              Process All
             </Button>
           </CardContent>
         </Card>
@@ -136,8 +136,8 @@ export default function DoctorDashboard() {
         <Card className="md:col-span-2 rounded-[2.5rem] border-none shadow-xl shadow-muted/30 overflow-hidden bg-card">
           <CardHeader className="flex flex-row items-center justify-between border-b bg-muted/5 pb-6">
             <div>
-                <CardTitle className="text-xl font-bold">Recent Admissions</CardTitle>
-                <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Live Clinical Feed</CardDescription>
+              <CardTitle className="text-xl font-bold">Recent Admissions</CardTitle>
+              <CardDescription className="font-medium text-xs uppercase tracking-widest mt-1">Live Clinical Feed</CardDescription>
             </div>
             <Button variant="ghost" size="icon" className="rounded-xl" onClick={() => router.push('/doctor/patients')}><ArrowUpRight className="h-5 w-5" /></Button>
           </CardHeader>
@@ -164,15 +164,15 @@ export default function DoctorDashboard() {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <Badge className="rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-wider bg-success/10 text-success hover:bg-success/20 border-success/20">
-                            Active Care
-                        </Badge>
-                        <Button variant="ghost" size="sm" className="rounded-xl font-bold text-xs opacity-0 group-hover:opacity-100 transition-opacity">Chart</Button>
+                      <Badge className="rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-wider bg-success/10 text-success hover:bg-success/20 border-success/20">
+                        Active Care
+                      </Badge>
+                      <Button variant="ghost" size="sm" className="rounded-xl font-bold text-xs opacity-0 group-hover:opacity-100 transition-opacity">Chart</Button>
                     </div>
                   </div>
                 ))}
                 {activeAdmissions.length === 0 && (
-                  <div className="p-20 text-center text-muted-foreground italic font-medium">
+                  <div className="p-20 text-center text-muted-foreground font-medium">
                     No active clinical sessions in this department.
                   </div>
                 )}
@@ -187,9 +187,9 @@ export default function DoctorDashboard() {
             <CardDescription className="text-muted-foreground">Rapid access to clinical modules.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 pt-4">
-            <Button 
-                className="w-full justify-start gap-4 h-16 rounded-2xl bg-muted/50 hover:bg-muted border-none transition-all hover:translate-x-1 text-foreground" 
-                onClick={() => router.push('/doctor/patients')}
+            <Button
+              className="w-full justify-start gap-4 h-16 rounded-2xl bg-muted/50 hover:bg-muted border-none transition-all hover:translate-x-1 text-foreground"
+              onClick={() => router.push('/doctor/patients')}
             >
               <div className="p-2 bg-info rounded-xl">
                 <Users className="h-5 w-5 text-info-foreground" />
@@ -199,10 +199,10 @@ export default function DoctorDashboard() {
                 <p className="text-[10px] text-muted-foreground uppercase font-black">Intake & Charting</p>
               </div>
             </Button>
-            
-            <Button 
-                className="w-full justify-start gap-4 h-16 rounded-2xl bg-muted/50 hover:bg-muted border-none transition-all hover:translate-x-1 text-foreground" 
-                onClick={() => router.push('/doctor/prescriptions')}
+
+            <Button
+              className="w-full justify-start gap-4 h-16 rounded-2xl bg-muted/50 hover:bg-muted border-none transition-all hover:translate-x-1 text-foreground"
+              onClick={() => router.push('/doctor/prescriptions')}
             >
               <div className="p-2 bg-primary rounded-xl">
                 <Stethoscope className="h-5 w-5 text-primary-foreground" />
@@ -213,8 +213,8 @@ export default function DoctorDashboard() {
               </div>
             </Button>
 
-            <Button 
-                className="w-full justify-start gap-4 h-16 rounded-2xl bg-muted/50 hover:bg-muted border-none transition-all hover:translate-x-1 text-foreground"
+            <Button
+              className="w-full justify-start gap-4 h-16 rounded-2xl bg-muted/50 hover:bg-muted border-none transition-all hover:translate-x-1 text-foreground"
             >
               <div className="p-2 bg-success rounded-xl">
                 <TrendingUp className="h-5 w-5 text-success-foreground" />

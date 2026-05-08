@@ -10,7 +10,7 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "seed": "npx tsx scripts/seed.ts"
+    "seed": "bun run scripts/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

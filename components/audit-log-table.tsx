@@ -64,7 +64,7 @@ export function AuditLogTable({ logs }: AuditLogTableProps) {
           ))}
           {logs.length === 0 && (
             <TableRow>
-              <TableCell colSpan={4} className="text-center py-24 text-muted-foreground italic font-medium">
+              <TableCell colSpan={4} className="text-center py-24 text-muted-foreground font-medium">
                 No immutable audit entries recorded in the current partition.
               </TableCell>
             </TableRow>

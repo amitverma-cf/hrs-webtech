@@ -16,7 +16,9 @@ export async function PATCH(
     }
 
     const { id } = await params;
-    const { status, role } = await req.json();
+    const body = await req.json();
+    const status = body.status || body.accountStatus;
+    const role = body.role;
 
     const updateData: Record<string, unknown> = {};
     

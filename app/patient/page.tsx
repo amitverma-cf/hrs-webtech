@@ -3,14 +3,14 @@
 import { useAuth } from "@/hooks/use-auth";
 import { usePatientAdmission } from "@/hooks/use-patient-admission";
 import { Task } from "@/lib/schemas";
-import { 
-  UserCircle, 
-  Activity, 
-  History, 
-  CreditCard, 
-  CheckCircle2, 
-  Clock, 
-  MapPin, 
+import {
+  UserCircle,
+  Activity,
+  History,
+  CreditCard,
+  CheckCircle2,
+  Clock,
+  MapPin,
   AlertCircle,
   TrendingUp,
   Download,
@@ -19,13 +19,13 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
@@ -51,14 +51,14 @@ export default function PatientDashboard() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">My Health Record</h1>
-            <p className="text-muted-foreground font-medium italic">Welcome, {user?.fullName || user?.username}.</p>
+            <p className="text-muted-foreground font-medium">Welcome, {user?.fullName || user?.username}.</p>
           </div>
         </div>
         <Card className="rounded-[2.5rem] border-dashed border-2 bg-muted/20">
           <CardContent className="p-24 text-center space-y-6">
             <AlertCircle className="h-16 w-12 text-muted-foreground mx-auto opacity-30" />
             <div className="max-w-md mx-auto">
-              <h3 className="text-2xl font-black italic">No Active Admission</h3>
+              <h3 className="text-2xl font-black">No Active Admission</h3>
               <p className="text-muted-foreground font-medium mt-2">
                 You are currently not admitted to the facility. Your previous records and discharge summaries are available in the Archive section.
               </p>
@@ -84,25 +84,25 @@ export default function PatientDashboard() {
           </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight">Active Care Session</h1>
-            <p className="text-muted-foreground font-medium italic">Monitoring your clinical progress and protocols.</p>
+            <p className="text-muted-foreground font-medium">Monitoring your clinical progress and protocols.</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-            <div className="text-right hidden md:block">
-                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Admission Node</p>
-                <p className="font-bold text-foreground/80">{admission.status === "active" ? `Live since ${new Date(admission.startDate).toLocaleDateString()}` : "Session Closed"}</p>
-            </div>
-            {admission.status === "active" ? (
-                <Badge className="bg-success hover:bg-success/90 text-success-foreground px-6 py-2 rounded-full text-sm font-black gap-2 uppercase tracking-wider shadow-lg shadow-success/20">
-                    <Activity className="h-4 w-4" />
-                    In-Ward Care
-                </Badge>
-            ) : (
-                <Badge variant="secondary" className="px-6 py-2 rounded-full text-sm font-black gap-2 uppercase tracking-wider">
-                    <History className="h-4 w-4" />
-                    Discharged
-                </Badge>
-            )}
+          <div className="text-right hidden md:block">
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Admission Node</p>
+            <p className="font-bold text-foreground/80">{admission.status === "active" ? `Live since ${new Date(admission.startDate).toLocaleDateString()}` : "Session Closed"}</p>
+          </div>
+          {admission.status === "active" ? (
+            <Badge className="bg-success hover:bg-success/90 text-success-foreground px-6 py-6 rounded-full text-sm font-black gap-2 uppercase tracking-wider shadow-lg shadow-success/20">
+              <Activity className="h-4 w-4" />
+              In-Ward Care
+            </Badge>
+          ) : (
+            <Badge variant="secondary" className="px-6 py-2 rounded-full text-sm font-black gap-2 uppercase tracking-wider">
+              <History className="h-4 w-4" />
+              Discharged
+            </Badge>
+          )}
         </div>
       </div>
 
@@ -111,8 +111,8 @@ export default function PatientDashboard() {
         <Card className="rounded-[2.5rem] border-none shadow-xl shadow-muted/30 overflow-hidden bg-card">
           <CardHeader className="bg-muted/5 border-b pb-6">
             <CardTitle className="text-xl font-bold flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary" />
-                Facility Status
+              <MapPin className="h-5 w-5 text-primary" />
+              Facility Status
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8 space-y-8">
@@ -121,17 +121,17 @@ export default function PatientDashboard() {
               <div className="flex items-center gap-3">
                 <span className="font-black text-4xl text-foreground/90">Room {admission.bed?.roomNumber || "—"}</span>
               </div>
-              <p className="text-sm font-bold text-primary italic">Protocol: {admission.template?.name || "Standard Care"}</p>
+              <p className="text-sm font-bold text-primary">Protocol: {admission.template?.name || "Standard Care"}</p>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between items-end">
                 <div>
-                    <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest block">Care Progress</span>
-                    <span className="font-black text-3xl">{progress}%</span>
+                  <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest block">Care Progress</span>
+                  <span className="font-black text-3xl">{progress}%</span>
                 </div>
                 <div className="text-right pb-1">
-                    <TrendingUp className="h-6 w-6 text-success" />
+                  <TrendingUp className="h-6 w-6 text-success" />
                 </div>
               </div>
               <Progress value={progress} className="h-3 bg-muted" />
@@ -162,21 +162,21 @@ export default function PatientDashboard() {
                     <div className="mt-1">
                       {task.status === "completed" ? (
                         <div className="h-10 w-10 rounded-full bg-success/10 flex items-center justify-center text-success shadow-inner">
-                            <CheckCircle2 className="h-6 w-6" />
+                          <CheckCircle2 className="h-6 w-6" />
                         </div>
                       ) : (
                         <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground opacity-50 shadow-inner">
-                            <Clock className="h-5 w-5" />
+                          <Clock className="h-5 w-5" />
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-1">
                         <div>
-                            <p className={`text-lg font-bold leading-none mb-1 ${task.status === "pending" ? "text-muted-foreground/60" : "text-foreground/80"}`}>
+                          <p className={`text-lg font-bold leading-none mb-1 ${task.status === "pending" ? "text-muted-foreground/60" : "text-foreground/80"}`}>
                             {task.description}
-                            </p>
-                            <span className="text-[10px] font-black uppercase text-muted-foreground tracking-wider">Protocol Node: {task.type}</span>
+                          </p>
+                          <span className="text-[10px] font-black uppercase text-muted-foreground tracking-wider">Protocol Node: {task.type}</span>
                         </div>
                         <span className="text-xs font-black text-muted-foreground bg-muted/30 px-3 py-1 rounded-full uppercase tracking-tighter">
                           {new Date(task.targetTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -184,15 +184,15 @@ export default function PatientDashboard() {
                       </div>
                       {Boolean(task.result) && (
                         <div className="mt-3 p-3 bg-info/5 rounded-xl border border-info/10 flex items-center gap-3">
-                            <Activity className="h-3 w-3 text-info" />
-                            <span className="text-xs font-black text-info uppercase tracking-widest">Verified Result: {String(task.result)}</span>
+                          <Activity className="h-3 w-3 text-info" />
+                          <span className="text-xs font-black text-info uppercase tracking-widest">Verified Result: {String(task.result)}</span>
                         </div>
                       )}
                     </div>
                   </div>
                 ))}
                 {tasks.length === 0 && (
-                  <div className="p-20 text-center text-muted-foreground italic font-medium">
+                  <div className="p-20 text-center text-muted-foreground font-medium">
                     No clinical interventions logged for this period.
                   </div>
                 )}
@@ -231,20 +231,20 @@ export default function PatientDashboard() {
                 <TableRow className="border-sidebar-border hover:bg-muted/30 transition-colors group">
                   <TableCell className="px-8 py-6">
                     <div className="flex flex-col">
-                        <span className="font-bold text-lg text-foreground/90">Room & Board (Intensive Care)</span>
-                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">Recurring Daily Rate</span>
+                      <span className="font-bold text-lg text-foreground/90">Room & Board (Intensive Care)</span>
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">Recurring Daily Rate</span>
                     </div>
                   </TableCell>
-                  <TableCell className="px-8 py-6 text-sm font-bold text-muted-foreground italic">Daily Recurring</TableCell>
+                  <TableCell className="px-8 py-6 text-sm font-bold text-muted-foreground">Daily Recurring</TableCell>
                   <TableCell className="px-8 text-right font-black text-xl text-primary">${admission.bed?.dailyRate?.toFixed(2) || "0.00"}</TableCell>
                 </TableRow>
                 {billing.lineItems.map((item: { description: string, date: Date, amount: number }, idx: number) => (
                   <TableRow key={idx} className="border-sidebar-border hover:bg-muted/30 transition-colors group">
                     <TableCell className="px-8 py-6">
-                        <div className="flex flex-col">
-                            <span className="font-bold text-lg text-foreground/90">{item.description}</span>
-                            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">Protocol-Driven charge</span>
-                        </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-lg text-foreground/90">{item.description}</span>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">Protocol-Driven charge</span>
+                      </div>
                     </TableCell>
                     <TableCell className="text-sm font-bold text-muted-foreground">
                       {new Date(item.date).toLocaleDateString()}
@@ -255,11 +255,11 @@ export default function PatientDashboard() {
               </TableBody>
             </Table>
             <div className="p-8 border-t border-sidebar-border flex justify-between items-center bg-muted/20">
-                <p className="text-xs text-muted-foreground font-bold max-w-md italic">This is an automated statement generated by clinical protocol fulfillment. Official invoices are issued upon discharge.</p>
-                <Button variant="secondary" className="rounded-xl font-bold h-11 px-8 gap-2">
-                    <Calendar className="h-4 w-4" />
-                    Payment Schedule
-                </Button>
+              <p className="text-xs text-muted-foreground font-bold max-w-md">This is an automated statement generated by clinical protocol fulfillment. Official invoices are issued upon discharge.</p>
+              <Button variant="secondary" className="rounded-xl font-bold h-11 px-8 gap-2">
+                <Calendar className="h-4 w-4" />
+                Payment Schedule
+              </Button>
             </div>
           </CardContent>
         </Card>
