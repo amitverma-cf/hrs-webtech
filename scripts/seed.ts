@@ -124,12 +124,116 @@ async function seed() {
         name: "Severe Pneumonia Protocol",
         description: "Standard care for severe pneumonia requiring inpatient monitoring.",
         metrics: [
-          { name: "SpO2 Level", frequencyHours: 4 },
+          { name: "SpO2 Level", frequencyHours: 6 },
           { name: "Body Temperature", frequencyHours: 8 },
+          { name: "Blood Pressure", frequencyHours: 12 },
         ],
         medications: [
           { name: "Ceftriaxone", dose: "1g IV", frequencyHours: 12, cost: 45 },
           { name: "Azithromycin", dose: "500mg PO", frequencyHours: 24, cost: 12 },
+        ],
+        vitalThresholds: [
+          { metric: "spO2", min: 92, urgent: true },
+          { metric: "temperature", max: 38.5, urgent: true },
+        ],
+      },
+      {
+        id: uuidv4(),
+        name: "Asthma Attack",
+        description: "Inpatient bronchodilator and steroid therapy for moderate-to-severe asthma flare.",
+        metrics: [
+          { name: "SpO2 Level", frequencyHours: 8 },
+          { name: "Peak Flow Rate", frequencyHours: 12 },
+        ],
+        medications: [
+          { name: "Salbutamol Nebulisation", dose: "2.5mg NEB", frequencyHours: 8, cost: 8 },
+          { name: "Ipratropium Bromide", dose: "0.5mg NEB", frequencyHours: 12, cost: 12 },
+          { name: "Prednisolone", dose: "40mg PO", frequencyHours: 24, cost: 3 },
+          { name: "Magnesium Sulphate", dose: "2g IV", frequencyHours: 24, cost: 25 },
+        ],
+        vitalThresholds: [
+          { metric: "spO2", min: 93, urgent: true },
+          { metric: "heartRate", max: 120, urgent: true },
+        ],
+      },
+      {
+        id: uuidv4(),
+        name: "COPD Flare-Up",
+        description: "Controlled oxygen and bronchodilator therapy for worsening chronic obstructive pulmonary disease.",
+        metrics: [
+          { name: "SpO2 Level", frequencyHours: 8 },
+          { name: "Respiratory Rate", frequencyHours: 12 },
+          { name: "Arterial Blood Gas", frequencyHours: 24 },
+        ],
+        medications: [
+          { name: "Salbutamol Nebulisation", dose: "2.5mg NEB", frequencyHours: 8, cost: 8 },
+          { name: "Ipratropium Nebulisation", dose: "500mcg NEB", frequencyHours: 12, cost: 12 },
+          { name: "Prednisolone", dose: "30mg PO", frequencyHours: 24, cost: 3 },
+          { name: "Doxycycline", dose: "200mg PO", frequencyHours: 24, cost: 7 },
+          { name: "Aminophylline", dose: "250mg IV", frequencyHours: 24, cost: 20 },
+        ],
+        vitalThresholds: [
+          { metric: "spO2", min: 88, urgent: true },
+          { metric: "heartRate", max: 120, urgent: true },
+          { metric: "temperature", max: 38.5, urgent: false },
+        ],
+      },
+      {
+        id: uuidv4(),
+        name: "Pulmonary Embolism (Blood Clot in Lungs)",
+        description: "Anticoagulation and close monitoring for blood clot blocking the pulmonary arteries.",
+        metrics: [
+          { name: "SpO2 Level", frequencyHours: 8 },
+          { name: "Heart Rate", frequencyHours: 8 },
+          { name: "Blood Pressure", frequencyHours: 12 },
+        ],
+        medications: [
+          { name: "Enoxaparin", dose: "1mg/kg SC", frequencyHours: 12, cost: 55 },
+          { name: "Rivaroxaban", dose: "15mg PO", frequencyHours: 24, cost: 35 },
+          { name: "Morphine", dose: "2mg IV PRN", frequencyHours: 12, cost: 20 },
+        ],
+        vitalThresholds: [
+          { metric: "spO2", min: 92, urgent: true },
+          { metric: "heartRate", max: 120, urgent: true },
+        ],
+      },
+      {
+        id: uuidv4(),
+        name: "Sepsis",
+        description: "Aggressive antibiotic therapy and fluid resuscitation for life-threatening infection response.",
+        metrics: [
+          { name: "Blood Pressure", frequencyHours: 8 },
+          { name: "SpO2 Level", frequencyHours: 8 },
+          { name: "Body Temperature", frequencyHours: 12 },
+          { name: "Urine Output (mL/hr)", frequencyHours: 12 },
+          { name: "Lactate Level", frequencyHours: 24 },
+        ],
+        medications: [
+          { name: "Piperacillin-Tazobactam", dose: "4.5g IV", frequencyHours: 8, cost: 60 },
+          { name: "Vancomycin", dose: "25mg/kg IV", frequencyHours: 12, cost: 85 },
+          { name: "IV Normal Saline", dose: "500mL IV", frequencyHours: 12, cost: 12 },
+          { name: "Hydrocortisone", dose: "50mg IV", frequencyHours: 12, cost: 18 },
+        ],
+        vitalThresholds: [
+          { metric: "heartRate", max: 130, urgent: true },
+          { metric: "spO2", min: 92, urgent: true },
+          { metric: "temperature", max: 39.0, urgent: true },
+        ],
+      },
+      {
+        id: uuidv4(),
+        name: "Fluid Around the Lungs (Pleural Effusion)",
+        description: "Drainage and monitoring for abnormal fluid buildup in the chest cavity.",
+        metrics: [
+          { name: "SpO2 Level", frequencyHours: 8 },
+          { name: "Chest Drain Output (mL)", frequencyHours: 12 },
+          { name: "Body Temperature", frequencyHours: 12 },
+        ],
+        medications: [
+          { name: "Furosemide", dose: "40mg IV", frequencyHours: 12, cost: 9 },
+          { name: "Paracetamol", dose: "1g PO", frequencyHours: 12, cost: 3 },
+          { name: "Morphine", dose: "2mg IV PRN", frequencyHours: 24, cost: 20 },
+          { name: "Ceftriaxone", dose: "1g IV", frequencyHours: 24, cost: 45 },
         ],
         vitalThresholds: [
           { metric: "spO2", min: 92, urgent: true },

@@ -7,7 +7,7 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status") || "pending";
     const wardId = searchParams.get("wardId");
-    
+
     const h = await headers();
     const role = h.get("x-user-role");
 
@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     }
 
     const db = await getDatabase();
-    
+
     // Join with admissions and beds to get room numbers
     const tasks = await db.collection("tasks").aggregate([
       { $match: { status } },

@@ -19,7 +19,7 @@ export class TaskService {
 
     // 1. Generate Metric Tasks
     for (const metric of template.metrics) {
-      for (let h = 0; h < durationHours; h += metric.frequencyHours) {
+      for (let h = metric.frequencyHours; h <= durationHours; h += metric.frequencyHours) {
         // Start from next hour to avoid immediate pileup, or start now
         const targetTime = new Date(now.getTime() + h * 60 * 60 * 1000);
         tasks.push({
@@ -38,7 +38,7 @@ export class TaskService {
 
     // 2. Generate Medication Tasks
     for (const med of template.medications) {
-      for (let h = 0; h < durationHours; h += med.frequencyHours) {
+      for (let h = med.frequencyHours; h <= durationHours; h += med.frequencyHours) {
         const targetTime = new Date(now.getTime() + h * 60 * 60 * 1000);
         tasks.push({
           id: uuidv4(),

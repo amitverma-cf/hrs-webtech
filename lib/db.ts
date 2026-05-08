@@ -14,41 +14,41 @@ declare global {
  * 1. Standard mongodb:// or mongodb+srv:// URIs.
  * 2. "memory" keyword to spin up a local persistent mongodb-memory-server (useful for dev/test).
  */
-export async function getMongoClient(): Promise<MongoClient> {
-  if (global._mongoClientPromise) {
-    return global._mongoClientPromise;
+export function getMongoClient(): Promise<MongoClient> {
+  if (!global._mongoClientPromise) {
+    global._mongoClientPromise = (async () => {
+      let uri = process.env.DATABASE_URL;
+      const isTest = process.env.NODE_ENV === "test";
+      const useMemory = !uri || uri === "memory" || isTest;
+
+      if (useMemory) {
+        if (!global._mongod) {
+          console.log(`🚀 Starting local persistent MongoDB via Memory Server (${isTest ? "TEST" : "DEV"})...`);
+          global._mongod = await MongoMemoryServer.create({
+            instance: {
+              dbPath: path.join(process.cwd(), ".mongo-data"),
+              storageEngine: "wiredTiger",
+            },
+          });
+        }
+        uri = global._mongod.getUri();
+      }
+
+      if (!uri) {
+        throw new Error(
+          "Please define the DATABASE_URL environment variable inside .env.local (or .env)"
+        );
+      }
+
+      if (!uri.startsWith("mongodb://") && !uri.startsWith("mongodb+srv://")) {
+        throw new Error(`Invalid DATABASE_URL scheme: ${uri}. Expected mongodb:// or mongodb+srv://`);
+      }
+
+      const client = new MongoClient(uri);
+      return client.connect();
+    })();
   }
 
-  let uri = process.env.DATABASE_URL;
-  const isTest = process.env.NODE_ENV === "test";
-  const useMemory = !uri || uri === "memory" || isTest;
-
-  if (useMemory) {
-    if (!global._mongod) {
-      console.log(`🚀 Starting local persistent MongoDB via Memory Server (${isTest ? "TEST" : "DEV"})...`);
-      global._mongod = await MongoMemoryServer.create({
-        instance: {
-          dbPath: path.join(process.cwd(), ".mongo-data"),
-          storageEngine: "wiredTiger",
-        },
-      });
-    }
-    uri = global._mongod.getUri();
-  }
-
-  if (!uri) {
-    throw new Error(
-      "Please define the DATABASE_URL environment variable inside .env.local (or .env)"
-    );
-  }
-
-  // Ensure URI starts with valid scheme if not using memory server (though memory server returns valid URI)
-  if (!uri.startsWith("mongodb://") && !uri.startsWith("mongodb+srv://")) {
-     throw new Error(`Invalid DATABASE_URL scheme: ${uri}. Expected mongodb:// or mongodb+srv://`);
-  }
-
-  const client = new MongoClient(uri);
-  global._mongoClientPromise = client.connect();
   return global._mongoClientPromise;
 }
 
